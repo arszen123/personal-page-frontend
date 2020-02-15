@@ -1,0 +1,19 @@
+<form [formGroup]="registrationForm">
+  <mat-form-field>
+    <input matInput placeholder="First name" type="text" formControlName="first_name">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Last name" type="text" formControlName="last_name">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="email" type="email" formControlName="email">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="password" type="password" formControlName="password">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Repeat password" type="password" formControlName="passwordConfirmation">
+  </mat-form-field>
+  <button mat-button (click)="register()">Register</button>
+</form>

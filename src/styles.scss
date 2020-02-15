@@ -1,4 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+$pp-color-background: #00202B;
+$pp-color-text: #E5E5E5;
+$pp-color-background1: #003B66;
+$pp-color-background2: #0085B2;
+$pp-color-background3: #00ACE5;
+
+
+html, body {
+  height: 100%;
+  //background-color: $pp-color-background;
+  //color: $pp-color-text;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

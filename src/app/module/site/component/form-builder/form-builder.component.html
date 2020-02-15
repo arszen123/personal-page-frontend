@@ -1,0 +1,30 @@
+<form [formGroup]="form">
+  <ng-container *ngFor="let elementName of formData.order">
+    <mat-form-field *ngIf="formData.elements[elementName].type === 'datepicker'">
+      <mat-label>{{ formData.elements[elementName].placeholder }}</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [required]="formData.elements[elementName].required"
+        [formControlName]="elementName"
+      >
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngFor="let errorMessage of formData.elements[elementName].errors | keyvalue">
+        <p
+        *ngIf="formData.elements[elementName].errors[errorMessage.key]">{{ errorMessage.value }}</p>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field *ngIf="formData.elements[elementName].type !== 'datepicker'">
+      <input
+        matInput
+        [required]="formData.elements[elementName].required"
+        [placeholder]="formData.elements[elementName].placeholder"
+        [type]="formData.elements[elementName].type"
+        [formControlName]="elementName">
+      <mat-error *ngFor="let errorMessage of formData.elements[elementName].errors | keyvalue"><p
+        *ngIf="formData.elements[elementName].errors[errorMessage.key]">{{ errorMessage.value }}</p>
+      </mat-error>
+    </mat-form-field>
+  </ng-container>
+</form>

@@ -12,7 +12,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import {SiteModule} from './module/site/site.module';
 import {PublicModule} from './module/public/public.module';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {BaseInterceptor} from "@app/http-interceptors/base-interceptor";
+import {AuthInterceptor} from "@app/http-interceptors/auth-interceptor";
+import {MatNativeDateModule, MatSnackBarModule} from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -31,8 +34,21 @@ import {HttpClientModule} from '@angular/common/http';
     PublicModule,
     SiteModule,
     AppRoutingModule,
+    MatNativeDateModule,
+    MatSnackBarModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BaseInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

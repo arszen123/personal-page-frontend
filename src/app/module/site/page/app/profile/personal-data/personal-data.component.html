@@ -1,0 +1,5 @@
+<div id="container">
+  <div *ngIf="showErrorMessage">Form need to be filled correctly</div>
+  <app-form-builder #form [data]="this.formData" ></app-form-builder>
+</div>
+<button id="save-button" mat-fab aria-label="Save" (click)="this.save()"><mat-icon>done</mat-icon></button>
