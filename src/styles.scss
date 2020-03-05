@@ -17,3 +17,39 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+
+#save-button{
+  right: 20px;
+  bottom: 10px;
+  left: auto;
+  position: fixed;
+}
+
+#add-button {
+  width: 20%;
+  left: 40%;
+}
+
+.mat-mini-fab.cancel-button {
+  right: 10px;
+  position: absolute;
+}
+
+.form-container:first-child {
+  padding-top: 10px
+}
+
+.form-container {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+#container {
+  width: 50%;
+  padding-left: 25%;
+}
+
+.form-container mat-form-field {
+  margin-top: 25px;
+}

@@ -1,5 +1,6 @@
-import {Component, DoCheck, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {Subscription} from "rxjs";
 
 /**
  * @example {
@@ -13,19 +14,27 @@ import {FormBuilder, FormGroup} from "@angular/forms";
  *       }
  *       ... // other properties may come
  *     }
- *   }
+ *   },
+ *   order: [
+ *     'element_name', ...
+ *   ]
  * }
+ * @todo compute change set
  */
 @Component({
   selector: 'app-form-builder',
   templateUrl: './form-builder.component.html',
   styleUrls: ['./form-builder.component.scss']
 })
-export class FormBuilderComponent implements OnInit, DoCheck {
+export class FormBuilderComponent implements OnInit, OnDestroy {
   @Input('data')
   public formData;
 
   private form: FormGroup = null;
+  private valueChange = {};
+  private _isValueChanged: boolean = false;
+  private _defaultValue: any = {};
+  private _valueChange: Subscription;
 
   constructor(
     private fb: FormBuilder
@@ -34,16 +43,9 @@ export class FormBuilderComponent implements OnInit, DoCheck {
 
   ngOnInit() {
     this.buildForm(this.formData);
-  }
-
-  ngDoCheck(): void {
-    if (this.form !== null) {
-      for (let elementsKey in this.formData.elements) {
-        if (!this.form.get(elementsKey).value) {
-          this.form.get(elementsKey).setValue(this.formData.elements[elementsKey].value);
-        }
-      }
-    }
+    this._valueChange = this.form.valueChanges.subscribe((val) => {
+      this._isValueChanged = JSON.stringify(val) !== JSON.stringify(this._defaultValue);
+    });
   }
 
   public submit() {
@@ -56,8 +58,56 @@ export class FormBuilderComponent implements OnInit, DoCheck {
     return this.form.valid;
   }
 
-  public formValue() {
+  public getValue() {
     return this.form.value;
+  }
+
+  public isValueChanged() {
+    return this._isValueChanged;
+  }
+
+  public markValueUnChanged() {
+    this._isValueChanged = false;
+  }
+
+  public subscribeValueChanges(element, call) {
+    if (typeof this.valueChange[element] === 'undefined') {
+      this.valueChange[element] = this.form.get(element).valueChanges.subscribe(call);
+    }
+  }
+
+  public setDefaultValue(value: { [key: string]: any; }, options: { onlySelf?: boolean, emitEvent?: boolean } = {
+    onlySelf: true,
+    emitEvent: true
+  }) {
+    this.setValue(value, {...options, default: true});
+  }
+
+  public setValue(value: { [key: string]: any; }, options: { default?: boolean, onlySelf?: boolean, emitEvent?: boolean } = {
+    default: false,
+    onlySelf: true,
+    emitEvent: true
+  }) {
+    let newValue = {};
+    for (let i in this.form.controls) {
+      newValue[i] = this.form.controls[i].value;
+      if (typeof value[i] !== 'undefined') {
+        newValue[i] = value[i];
+      }
+    }
+    // @todo there should be a better option
+    this.form.setValue(newValue, {onlySelf:options.onlySelf, emitEvent: options.emitEvent});
+    if (options.default) {
+      this._defaultValue = this.getValue();
+      this.form.setValue(newValue, {onlySelf:options.onlySelf, emitEvent: true});
+    }
+  }
+
+  ngOnDestroy(): void {
+    for (let valueChangeKey in this.valueChange) {
+      this.valueChange[valueChangeKey].unsubscribe();
+    }
+    this._valueChange.unsubscribe();
   }
 
   private buildForm(formData) {

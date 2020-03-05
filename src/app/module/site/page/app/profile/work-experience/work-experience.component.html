@@ -1,0 +1,26 @@
+<div id="container">
+  <div class="form-container" *ngFor="let formData of this.forms; let id = index">
+    <mat-card>
+    <button
+      mat-button
+      mat-mini-fab
+      class="cancel-button"
+      color="warn"
+      (click)="delete(id)"><mat-icon>cancel</mat-icon></button>
+    <app-form-builder #form [data]="formData" ></app-form-builder>
+    </mat-card>
+  </div>
+  <button
+    id="add-button"
+    mat-raised-button
+    mat-button
+    color="primary"
+    (click)="addForm()"><mat-icon>add</mat-icon></button>
+</div>
+<button
+  id="save-button"
+  mat-fab
+  color="primary"
+  aria-label="Save"
+  [disabled]="isNotChangedFormsValue"
+  (click)="this.save()"><mat-icon>done</mat-icon></button>

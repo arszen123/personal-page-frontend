@@ -3,11 +3,12 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
 import {AuthService} from "@app/service/auth.service";
 import {map} from "rxjs/operators";
+import {Repository} from "@app/interface/Repository";
 
 @Injectable({
   providedIn: 'root'
 })
-export class PersonalDataService {
+export class PersonalDataService implements Repository {
 
   constructor(
     private http: HttpClient,
@@ -20,16 +21,31 @@ export class PersonalDataService {
     // @todo
     body.birth_date = body.birth_date.toISOString().split('T')[0];
     let req = this.http.put(environment.apiUrl + 'user/details', body);
-    req.subscribe((al) => console.log(al), err => console.log(err));
     return req;
   }
 
-  public getPersonalData() {
+  getAll() {
     return this.http.get(environment.apiUrl + 'user/details')
       .pipe(map(val => {
         // @ts-ignore
         val.birth_date = new Date(val.birth_date);
         return val;
       }));
+  }
+
+  delete(id) {
+    throw new Error('Method not implemented');
+  }
+
+  deleteAll(ids) {
+    throw new Error('Method not implemented');
+  }
+
+  saveAll(data) {
+    throw new Error('Method not implemented');
+  }
+
+  update(id, data) {
+    throw new Error('Method not implemented');
   }
 }

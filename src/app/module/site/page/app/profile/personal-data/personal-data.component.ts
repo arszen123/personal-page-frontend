@@ -1,19 +1,19 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {PersonalDataService} from "@app/repository/personal-data.service";
 import {FormBuilderComponent} from "@app/module/site/component/form-builder/form-builder.component";
 import {MatSnackBar} from "@angular/material";
 import {form as formData} from "@assets/form";
+import {OnBeforeDeactivate} from "@app/interface/OnBeforeDeactivate";
 
 @Component({
   selector: 'app-personal-data',
   templateUrl: './personal-data.component.html',
   styleUrls: ['./personal-data.component.scss']
 })
-export class PersonalDataComponent implements OnInit {
+export class PersonalDataComponent implements OnBeforeDeactivate {
   private formData: any = formData.personal_data;
   @ViewChild('form', {static: false})
   private form: FormBuilderComponent;
-  private showErrorMessage: boolean = false;
 
   constructor(
     private repository: PersonalDataService,
@@ -21,26 +21,31 @@ export class PersonalDataComponent implements OnInit {
   ) {
   }
 
+  private get isNotChangedFormsValue() {
+    return false; //@todo implement
+  }
+
   ngOnInit() {
-    this.repository.getPersonalData().subscribe(value => {
-      let tmp = this.formData;
-      for (let i in value) {
-        if (typeof tmp.elements[i] !== 'undefined') {
-          tmp.elements[i].value = value[i];
-        }
-      }
-      this.formData = tmp;
-    });
+    this.repository.getAll().subscribe(value => this.form.setDefaultValue(value));
+  }
+
+  public onBeforeDeactivate(): boolean {
+    let isValueChanged = this.form.isValueChanged();
+    if (isValueChanged) {
+      isValueChanged = !confirm('You have unsaved modifications!\nYou really want to unload the page?');
+    }
+    return !isValueChanged;
   }
 
   private save() {
     this.form.submit();
     if (this.form.isValid()) {
-      this.repository.save(this.form.formValue())
+      this.repository.save(this.form.getValue())
         .subscribe(val => {
             //@ts-ignore
             if (val.success) {
               this.snackBar.open('Success!', 'OK', {duration: 2000});
+              this.form.markValueUnChanged();
             }
           },
           error => {

@@ -1,30 +1,65 @@
 <form [formGroup]="form">
   <ng-container *ngFor="let elementName of formData.order">
-    <mat-form-field *ngIf="formData.elements[elementName].type === 'datepicker'">
-      <mat-label>{{ formData.elements[elementName].placeholder }}</mat-label>
-      <input
-        matInput
-        [matDatepicker]="picker"
-        [required]="formData.elements[elementName].required"
-        [formControlName]="elementName"
-      >
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      <mat-error *ngFor="let errorMessage of formData.elements[elementName].errors | keyvalue">
-        <p
-        *ngIf="formData.elements[elementName].errors[errorMessage.key]">{{ errorMessage.value }}</p>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field *ngIf="formData.elements[elementName].type !== 'datepicker'">
-      <input
-        matInput
-        [required]="formData.elements[elementName].required"
-        [placeholder]="formData.elements[elementName].placeholder"
-        [type]="formData.elements[elementName].type"
-        [formControlName]="elementName">
-      <mat-error *ngFor="let errorMessage of formData.elements[elementName].errors | keyvalue"><p
-        *ngIf="formData.elements[elementName].errors[errorMessage.key]">{{ errorMessage.value }}</p>
-      </mat-error>
-    </mat-form-field>
+    <ng-container [ngSwitch]="formData.elements[elementName].type">
+      <mat-form-field *ngSwitchCase="'datepicker'" [style.display]="formData.elements[elementName].hidden ? 'none' : 'block'">
+        <mat-label>{{ formData.elements[elementName].placeholder }}</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [required]="formData.elements[elementName].required"
+          [formControlName]="elementName"
+        >
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngFor="let errorMessage of formData.elements[elementName].errors | keyvalue">
+          <p
+            *ngIf="formData.elements[elementName].errors[errorMessage.key]">{{ errorMessage.value }}</p>
+        </mat-error>
+      </mat-form-field>
+      <mat-slide-toggle *ngSwitchCase="'toggle'" [formControlName]="elementName" [style.display]="formData.elements[elementName].hidden ? 'none' : 'block'">
+        {{ formData.elements[elementName].placeholder }}
+      </mat-slide-toggle>
+      <div *ngSwitchCase="'hidden'">
+        <input
+          matInput
+          [hidden]="true"
+          [required]="formData.elements[elementName].required"
+          type="text"
+          [formControlName]="elementName">
+      </div>
+      <mat-form-field *ngSwitchCase="'select'" [style.display]="formData.elements[elementName].hidden ? 'none' : 'block'">
+        <mat-label>{{ formData.elements[elementName].placeholder }}</mat-label>
+        <mat-select
+          matInput
+          [required]="formData.elements[elementName].required"
+          [placeholder]="formData.elements[elementName].placeholder"
+          [formControlName]="elementName"
+        >
+          <mat-option *ngFor="let option of formData.elements[elementName].options |keyvalue" [value]="option.key">
+            {{ option.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngSwitchCase="'chip'" [style.display]="formData.elements[elementName].hidden ? 'none' : 'block'">
+        <app-chip-form-element
+          matInput
+          [required]="formData.elements[elementName].required"
+          [placeholder]="formData.elements[elementName].placeholder"
+          [formControlName]="elementName"
+        >
+        </app-chip-form-element>
+      </mat-form-field>
+      <mat-form-field *ngSwitchDefault [style.display]="formData.elements[elementName].hidden ? 'none' : 'block'">
+        <input
+          matInput
+          [required]="formData.elements[elementName].required"
+          [placeholder]="formData.elements[elementName].placeholder"
+          [type]="formData.elements[elementName].type"
+          [formControlName]="elementName">
+        <mat-error *ngFor="let errorMessage of formData.elements[elementName].errors | keyvalue"><p
+          *ngIf="formData.elements[elementName].errors[errorMessage.key]">{{ errorMessage.value }}</p>
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
   </ng-container>
 </form>
