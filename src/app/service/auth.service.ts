@@ -30,12 +30,11 @@ export class AuthService {
     return <Observable<User>>this.http.post(environment.apiUrl + 'authentication/login', auth)
       .pipe(
         map((val: TokenResponse) => {
-          LocalStore.set('token', val.token);
-          LocalStore.set('token_expires_at', val.expires_at);
+          this.setToken(val);
           this.isLoggedIn$.next(this.isLoggedIn());
           return this.http.get(environment.apiUrl + 'user').pipe(map(
             (user: User) => {
-              LocalStore.set('user', user);
+              this.setUser(user);
               return user;
             }
           ));
@@ -70,9 +69,8 @@ export class AuthService {
   public register(user: UserRegistration) {
     return this.http.post(environment.apiUrl + 'user', user).pipe(map(
         (val: TokenResponse) => {
-          LocalStore.set('token', val.token);
-          LocalStore.set('token_expires_at', val.expires_at);
-          LocalStore.set('user', {
+          this.setToken(val);
+          this.setUser({
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
@@ -83,10 +81,32 @@ export class AuthService {
         }));
   }
 
+  public updateData(userData: {email: string, password: string, newPassword?: string}) {
+    return this.http.put(environment.apiUrl + 'user/profile', userData).pipe(map(
+      (val: any) => {
+        if (val.success) {
+          const user = this.getUser();
+          user.email = userData.email;
+          this.setUser(user);
+        }
+        return val;
+      }
+    ));
+  }
+
   public isTokenExpired(): boolean {
     const tokenExpiration = new Date(LocalStore.get('token_expires_at'));
     const now = new Date();
     // @TODO deal with different timezones
     return  tokenExpiration < now;
+  }
+
+  private setUser(user: User) {
+    LocalStore.set('user', user);
+  }
+
+  private setToken(tokenResponse: TokenResponse) {
+    LocalStore.set('token', tokenResponse.token);
+    LocalStore.set('token_expires_at', tokenResponse.expires_at);
   }
 }

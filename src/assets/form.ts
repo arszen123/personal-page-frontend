@@ -398,5 +398,42 @@ export const form: {
       'security_level',
       'password',
     ]
+  },
+  profile: {
+    elements: {
+      email: {
+        type: 'text',
+        placeholder: 'Email',
+        required: true,
+        validators: [Validators.required],
+        validators_async: [],
+        errors: {
+          required: 'Email is required',
+        }
+      },
+      newPassword: {
+        type: 'password',
+        placeholder: 'New password (Leave blank if you don\'t want to modify)',
+        required: false,
+        validators: [],
+        validators_async: [],
+        errors: {}
+      },
+      password: {
+        type: 'password',
+        placeholder: 'Current password',
+        required: true,
+        validators: [Validators.required],
+        validators_async: [],
+        errors: {
+          required: 'Current password is required',
+        }
+      },
+    },
+    order: [
+      'email',
+      'newPassword',
+      'password'
+    ]
   }
 };

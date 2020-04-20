@@ -1,0 +1,14 @@
+<div id="container">
+  <div class="form-container">
+    <mat-card>
+      <app-form-builder #form [data]="formData" ></app-form-builder>
+    </mat-card>
+  </div>
+</div>
+<button
+  id="save-button"
+  mat-fab
+  color="primary"
+  aria-label="Save"
+  [disabled]="isNotChangedFormsValue"
+  (click)="this.save()"><mat-icon>done</mat-icon></button>

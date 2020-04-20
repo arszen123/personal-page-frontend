@@ -40,6 +40,7 @@ import { SecurityComponent } from './page/app/page/security/security.component';
 import {PublicModule} from "@app/module/public/public.module";
 import { OauthComponent } from './page/auth/oauth/oauth.component';
 import { AppsComponent } from './page/app/oauth/apps/apps.component';
+import { ProfileComponent } from './page/app/profile/profile.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { AppsComponent } from './page/app/oauth/apps/apps.component';
     WidgetComponent,
     SecurityComponent,
     OauthComponent,
-    AppsComponent
+    AppsComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,
