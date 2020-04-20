@@ -1,76 +1,37 @@
 import {Injectable} from '@angular/core';
+import {BaseRepository} from "@app/repository/BaseRepository";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "@environments/environment";
-import {Repository} from "@app/interface/Repository";
+import {PageService} from "@app/repository/page.service";
+import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {forkJoin} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class EducationService implements Repository {
+export class EducationService extends BaseRepository {
+  protected url = 'user/education';
 
   constructor(
-    private http: HttpClient
+    protected http: HttpClient,
+    protected pageRepository: PageService
   ) {
+    super();
   }
 
-  public saveAll(data) {
-    let res = [];
-    for (let dataKey in data) {
-      let id = data[dataKey].id;
-      if (id) {
-        res.push(this.update(id, data[dataKey]));
-        continue;
-      }
-      res.push(this.save(data[dataKey]));
-    }
-    return forkJoin(res)
-      .pipe(
-        map((value: Array<any>) => {
-          return {success: value.every(value1 => value1.success === true)}
-        })
-      );
+  delete(id: string): Observable<{ success: boolean }> {
+    return super.delete(id).pipe(map(value => {
+      this.pageRepository.deleteWidget(id, 'education');
+      return value;
+    }))
   }
-
-  public getAll() {
-    return this.http.get(environment.apiUrl + 'user/educations')
-      .pipe(map(value => {
-        for (let valueKey in value) {
-          value[valueKey].from = new Date(value[valueKey].from);
-          value[valueKey].to = new Date(value[valueKey].to);
-        }
-        return value;
-      }))
+  save(data) {
+    data.from = data.from.toISOString().split('T')[0];
+    data.to   = data.to.toISOString().split('T')[0];
+    return super.save(data);
   }
-
-  public save(data) {
-    this._prepareData(data);
-    let req = this.http.post(environment.apiUrl + 'user/education', data);
-    return req;
-  }
-
-  public update(id, data) {
-    this._prepareData(data);
-    let req = this.http.put(environment.apiUrl + `user/education/${id}`, data);
-    return req;
-  }
-
-  public deleteAll(ids) {
-    let res = [];
-    for (let i in ids) {
-      res.push(this.delete(ids[i]));
-    }
-    return forkJoin(res);
-  }
-
-  public delete(id) {
-    let req = this.http.delete(environment.apiUrl + `user/education/${id}`);
-    return req;
-  }
-
-  private _prepareData(data: { from: any, to: any }) {
-    data.from = new Date(data.from).toISOString().split('T')[0];
-    data.to = new Date(data.to).toISOString().split('T')[0];
+  update(data: any) {
+    data.from = data.from.toISOString().split('T')[0];
+    data.to   = data.to.toISOString().split('T')[0];
+    return super.update(data);
   }
 }

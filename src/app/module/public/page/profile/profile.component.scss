@@ -1,0 +1,31 @@
+#profile-container {
+  background-color: whitesmoke;
+  min-height: 100%;
+}
+
+.password-container {
+  display: block;
+  width: 50%;
+  margin: 0;
+  left: 25%;
+  right: 25%;
+  position: absolute;
+  text-align: center;
+  border-style: solid;
+  border-color: black;
+  border-radius: 25px;
+  top: 25%;
+  div:first-child {
+    margin: 1em;
+  }
+  p {
+    margin: 0;
+  }
+  mat-form-field {
+    width: 50%;
+    position: relative;
+    left: 25%;
+    display: block;
+  }
+
+}

@@ -2,13 +2,15 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
 import {AuthService} from "@app/service/auth.service";
-import {map} from "rxjs/operators";
 import {Repository} from "@app/interface/Repository";
+import {Observable, timer} from "rxjs";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PersonalDataService implements Repository {
+  private data;
 
   constructor(
     private http: HttpClient,
@@ -18,19 +20,47 @@ export class PersonalDataService implements Repository {
 
   public save(data) {
     let body = {...data, email: this.authService.getUser().email};
+    if (body.profile_picture === '') {
+      delete body.profile_picture;
+    }
+    if (body.profile_picture === null) {
+      body.profile_picture = 'delete';
+    }
     // @todo
-    body.birth_date = body.birth_date.toISOString().split('T')[0];
-    let req = this.http.put(environment.apiUrl + 'user/details', body);
-    return req;
+    if (typeof body.birth_date !== 'string') {
+      body.birth_date = body.birth_date.toISOString().split('T')[0];
+    }
+    return this.http.put(environment.apiUrl + 'user/details', body)
+      .pipe(map(value => {
+        const pp = this.data.profile_picture;
+        this.data = body;
+        this.data.profile_picture = pp;
+        return value;
+      }));
   }
 
   getAll() {
-    return this.http.get(environment.apiUrl + 'user/details')
-      .pipe(map(val => {
-        // @ts-ignore
-        val.birth_date = new Date(val.birth_date);
-        return val;
-      }));
+    return new Observable(subscriber => {
+      if (this.data) {
+        timer(0)
+          .subscribe(() => {
+            subscriber.next(this.data);
+            subscriber.complete();
+          });
+        return;
+      }
+      this.http.get(environment.apiUrl + 'user/details')
+        .subscribe((value: any) => {
+          value.birth_date = new Date(value.birth_date);
+          this.data = value;
+          subscriber.next(value);
+          subscriber.complete();
+        }, error => subscriber.error(error));
+    })
+  }
+
+  public getPersonalData() {
+      return this.data;
   }
 
   delete(id) {
@@ -46,6 +76,10 @@ export class PersonalDataService implements Repository {
   }
 
   update(id, data) {
+    throw new Error('Method not implemented');
+  }
+
+  get(id) {
     throw new Error('Method not implemented');
   }
 }

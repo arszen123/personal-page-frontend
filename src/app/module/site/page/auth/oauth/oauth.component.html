@@ -1,0 +1,34 @@
+<ng-container *ngIf="checkClient">
+  <div *ngIf="checkClient.is_valid">
+    <div id="oauth-container" class="container" *ngIf="isLoggedIn">
+      <h1>{{ checkClient.app.name }}</h1>
+      <p>You are logged in as: {{ authService.getUser()?.first_name }} {{ authService.getUser()?.last_name }}</p>
+      <p>This app would like to:</p>
+      <ul *ngFor="let scope of checkClient.app.scopes">
+        <li title="{{ scope.name }}">{{ scope.description }}</li>
+      </ul>
+      <button
+        id="cancel"
+        mat-flat-button
+        color="warn"
+        (click)="deniAuthorization()"
+      >Cancel
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="authorize()"
+      >Allow
+      </button>
+    </div>
+    <div id="oauth-login-container" class="container" *ngIf="!isLoggedIn">
+      <app-login [doRedirect]="false"></app-login>
+    </div>
+  </div>
+  <div *ngIf="!checkClient.is_valid">
+    <div id="oauth-invalid-container" class="container">
+      <h1>Invalid authorization request.</h1>
+      <p *ngIf="isLoggedIn">Go to <a href="#" routerLink="/app">dashboard</a></p>
+    </div>
+  </div>
+</ng-container>

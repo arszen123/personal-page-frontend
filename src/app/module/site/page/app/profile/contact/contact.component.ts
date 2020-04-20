@@ -7,7 +7,7 @@ import {ConfirmDialogComponent} from "@app/module/site/component/confirm-dialog/
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {OnBeforeDeactivate} from "@app/interface/OnBeforeDeactivate";
 import {RepositoryHelper} from "@app/helper/repository-helper";
-import {FormController} from "@app/interface/form-controller";
+import {FormController} from "@app/interface/FormController";
 
 @Component({
   selector: 'app-contact',

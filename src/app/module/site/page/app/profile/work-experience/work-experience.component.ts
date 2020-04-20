@@ -7,7 +7,7 @@ import {MatDialog, MatSnackBar} from "@angular/material";
 import {ConfirmDialogComponent} from "@app/module/site/component/confirm-dialog/confirm-dialog.component";
 import {OnBeforeDeactivate} from "@app/interface/OnBeforeDeactivate";
 import {RepositoryHelper} from "@app/helper/repository-helper";
-import {FormController} from "@app/interface/form-controller";
+import {FormController} from "@app/interface/FormController";
 
 @Component({
   selector: 'app-work-experience',
@@ -41,13 +41,16 @@ export class WorkExperienceComponent implements AfterViewInit, AfterViewChecked,
   }
 
   ngAfterViewInit(): void {
-    this.repositoryHelper = new RepositoryHelper(
-      this.repository,
-      this.formQueryList,
-      this,
-      this.snackBar,
-    );
+    if (typeof this.repositoryHelper === 'undefined') {
+      this.repositoryHelper = new RepositoryHelper(
+        this.repository,
+        this.formQueryList,
+        this,
+        this.snackBar,
+      );
+    }
     this.repositoryHelper.syncData();
+    console.log(this.formQueryList);
     this.formQueryList.forEach(((item, index, array) => this.subscribeValueChanges(item, index, array)));
   }
 

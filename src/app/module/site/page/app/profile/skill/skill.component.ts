@@ -4,6 +4,7 @@ import {form as formData} from '@assets/form';
 import {SkillService} from "@app/repository/skill.service";
 import {MatSnackBar} from "@angular/material";
 import {OnBeforeDeactivate} from "@app/interface/OnBeforeDeactivate";
+import Utils from "@app/utils/utils";
 
 @Component({
   selector: 'app-skill',
@@ -14,6 +15,7 @@ export class SkillComponent implements OnInit, OnBeforeDeactivate {
   private formData = formData.skill;
   @ViewChild('form', {static: true})
   private form: FormBuilderComponent;
+  private originalData: any;
 
   constructor(
     private repository: SkillService,
@@ -22,16 +24,19 @@ export class SkillComponent implements OnInit, OnBeforeDeactivate {
   }
 
   private get isNotChangedFormsValue() {
-    return false; //@todo implement
+    return !this.isValueChanged();
   }
 
   ngOnInit() {
     let req = this.repository.getAll();
-    req.subscribe((val) => this.form.setDefaultValue({skill: val}));
+    req.subscribe((val) => {
+      this.originalData = Utils.clone({skill: val});
+      this.form.setDefaultValue(Utils.clone({skill: val}))
+    });
   }
 
   public onBeforeDeactivate(): boolean {
-    let isValueChanged = this.form.isValueChanged();
+    let isValueChanged = this.isValueChanged();
     if (isValueChanged) {
       isValueChanged = !confirm('You have unsaved modifications!\nYou really want to unload the page?');
     }
@@ -41,16 +46,23 @@ export class SkillComponent implements OnInit, OnBeforeDeactivate {
   private save() {
     this.form.submit();
     if (this.form.isValid()) {
+      let skills = this.form.getValue();
       this.repository
-        .save(this.form.getValue())
+        .save(skills)
         .subscribe((val: any) => {
             if (!val.success) {
               return;
             }
+            this.originalData = Utils.clone(skills);
+            this.form.setDefaultValue(skills);
             this.snackBar.open('Success!', 'Ok!', {duration: 2000});
           },
           err => this.snackBar.open(err.errormessage, 'Ok!', {duration: 2000})
         );
     }
+  }
+
+  private isValueChanged(): boolean {
+    return JSON.stringify(this.form.getValue()) !== JSON.stringify(this.originalData);
   }
 }

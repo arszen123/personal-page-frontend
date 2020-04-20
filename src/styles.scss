@@ -26,7 +26,7 @@ body {
   position: fixed;
 }
 
-#add-button {
+#add-form-button {
   width: 20%;
   left: 40%;
 }
@@ -52,4 +52,159 @@ body {
 
 .form-container mat-form-field {
   margin-top: 25px;
+}
+
+.grid-stack-item-content {
+  overflow-y: hidden !important;
+  min-width: fit-content;
+  max-height: min-content;
+}
+
+#profile-container {
+  #add-button {
+    right: 20px;
+    bottom: 10px;
+    left: auto;
+    position: fixed;
+  }
+
+  .grid {
+    overflow: hidden -moz-hidden-unscrollable;
+  }
+
+  mat-card {
+    height: -webkit-fill-available;
+    padding: 8px;
+  }
+
+  /*
+  .grid-stack-item {
+    background-color: beige;
+  }
+  .grid-stack-item-content {
+    background-color: beige;
+  }
+  */
+  .container {
+    display: grid;
+    grid-template-columns: 50% auto;
+    grid-template-rows: auto;
+    grid-template-areas: "image description" "content content";
+  }
+
+  .image {
+    grid-area: image;
+    text-align: center;
+    margin-top: 20px;
+
+    & img {
+      border-radius: 100%;
+      width: 350px;
+      height: 350px;
+    }
+  }
+
+  .description {
+    grid-area: description;
+    display: grid;
+    grid-template-rows: 20% 70%;
+    grid-template-areas: "name" "bio";
+    margin-right: 20%;
+    margin-top: 5%;
+
+    & .name {
+      grid-area: name;
+    }
+
+    & .bio {
+      grid-area: bio;
+      margin-top: 50px;
+    }
+  }
+
+  .content {
+    grid-area: content;
+  }
+
+  @media only screen and (max-width: 730px) {
+    .container {
+      grid-template-columns: auto;
+      grid-template-areas: "image" "description" "content";
+    }
+
+    .image img {
+      width: 250px;
+      height: 250px;
+    }
+    .description {
+      text-align: center;
+      margin: 0 5% 0 5%;
+    }
+  }
+  /*
+
+  @media only screen and (max-width: 900px) {
+    .image img {
+      width: 250px;
+      height: 250px;
+    }
+  }
+  */
+
+
+  #save-button {
+    bottom: 130px;
+  }
+
+  #settings-button {
+    bottom: 70px;
+    right: 20px;
+    left: auto;
+    position: fixed;
+  }
+}
+
+.company-avatar {
+  background-image: url('/assets/img/company.png');
+  background-size: cover;
+}
+.education-avatar {
+  background-image: url('/assets/img/education.png');
+  background-size: 40px 40px;
+  //background-size: cover;
+}
+.language-avatar {
+  background-image: url('/assets/img/language.jpg');
+  background-size: cover;
+}
+.card-contact a {
+  text-decoration: none;
+  color: black;
+}
+.contact-avatar {
+  background-image: url('/assets/img/other.png');
+  background-size: cover;
+}
+.phone-contact-avatar {
+  background-image: url('/assets/img/phone.png');
+  background-size: cover;
+}
+.email-contact-avatar {
+  background-image: url('/assets/img/email.png');
+  background-size: cover;
+}
+.url-contact-avatar {
+  background-image: url('/assets/img/url.jpeg');
+  background-size: cover;
+}
+#auth-container {
+  .mat-tab-body {
+    margin: 1em;
+  }
+  .mat-tab-body-content {
+    overflow: hidden;
+  }
+}
+mat-dialog-container {
+  width: 40%;
 }

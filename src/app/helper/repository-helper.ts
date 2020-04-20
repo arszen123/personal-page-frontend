@@ -2,8 +2,9 @@ import {Repository} from "@app/interface/Repository";
 import {QueryList} from "@angular/core";
 import {FormBuilderComponent} from "@app/module/site/component/form-builder/form-builder.component";
 import {map} from "rxjs/operators";
-import {FormController} from "@app/interface/form-controller";
+import {FormController} from "@app/interface/FormController";
 import {MatSnackBar} from "@angular/material";
+import {forkJoin} from "rxjs";
 
 export class RepositoryHelper {
   private deletedIds: Array<string> = [];
@@ -24,20 +25,18 @@ export class RepositoryHelper {
 
   public syncData() {
     this.repository.getAll()
-      .pipe(map((val: Array<object>) => {
+      .subscribe((val: Array<object>) => {
         let formsNeeded = val.length - this.forms.length;
         for (let i = 0; i < formsNeeded; i++) {
           this.controller.addForm();
         }
-        return val;
-      }))
-      .subscribe((val: Array<object>) => {
+
         setTimeout(() => {
           let form = this.forms.toArray();
           for (let i in val) {
             form[i].setDefaultValue(val[i]);
           }
-        })
+        });
       });
   }
 
@@ -62,7 +61,18 @@ export class RepositoryHelper {
       isValid = false;
     });
     if (isValid) {
-      this.repository.saveAll(items)
+      const delete$ = this.repository.deleteAll(this.deletedIds);
+      const save$ = this.repository.saveAll(items);
+
+      forkJoin(
+        delete$,
+        save$
+      )
+        .pipe(
+          map((value: Array<any>) => {
+            return {success: value.every(value1 => value1.success && true)}
+          })
+        )
         .subscribe(val => {
             if (val.success) {
               this.snackBar.open('Success!', 'OK', {duration: 2000});
@@ -74,10 +84,6 @@ export class RepositoryHelper {
           err => {
             this.snackBar.open(err.error.message, 'OK', {duration: 2000});
           });
-      this.repository.deleteAll(this.deletedIds)
-        .subscribe(val => {
-          this.deletedIds = [];
-        });
     }
   }
 

@@ -34,4 +34,9 @@ export interface Repository {
    * Get all entities
    */
   getAll();
+
+  /**
+   * Get entity by id
+   */
+  get(id);
 }

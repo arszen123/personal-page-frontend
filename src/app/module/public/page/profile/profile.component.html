@@ -1,0 +1,52 @@
+<div id="profile-container" *ngIf="isSuccess$ | async">
+  <div class="container">
+    <div class="image">
+      <img [src]="profileData?.user?.profile_picture || 'https://via.placeholder.com/350'"/>
+    </div>
+    <div class="description">
+      <h1 class="name">{{ profileData?.user?.first_name + ' ' + profileData?.user?.last_name }}</h1>
+      <p class="bio">
+        {{ profileData?.user?.bio }}
+      </p>
+    </div>
+    <div class="content">
+      <div id="grid"
+           lb-gridstack
+           width="24">
+        <div *ngFor="let widget of profileData?.page; let i = index"
+             lb-gridstack-item
+             [x]="widget?.gs?.x"
+             [y]="widget?.gs?.y"
+             [max-width]="widget?.gs?.max_width"
+             [max-height]="widget?.gs?.max_height"
+             [width]="widget?.gs?.width"
+             [height]="widget?.gs?.height"
+             [locked]="true"
+             [no-move]="true"
+             [no-resize]="true"
+        >
+          <app-widget [data]="widget.data" [type]="widget.type">
+          </app-widget>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!(isSuccess$ | async) && (needAuth$ | async)" class="password-container">
+  <div>
+    <p>Profile <b>{{ this.pageId }}</b> is protected with password</p>
+    <mat-form-field>
+      <input
+          #password
+          matInput
+          placeholder="Password"
+          type="password"
+          name="password">
+    </mat-form-field>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="authorize(password.value)">GO
+    </button>
+  </div>
+</div>

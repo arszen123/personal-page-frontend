@@ -1,0 +1,121 @@
+<ng-container [ngSwitch]="type">
+  <mat-card *ngSwitchCase="'experience'">
+    <mat-card-header>
+      <div mat-card-avatar class="company-avatar"></div>
+      <mat-card-title>{{ entity?.company_name }}</mat-card-title>
+      <mat-card-subtitle>{{ entity?.position }}</mat-card-subtitle>
+      <mat-card-actions *ngIf="allowDelete">
+        <button
+        mat-mini-fab
+        class="delete-button"
+        color="warn"
+        (click)="delete()">
+        <mat-icon>cancel</mat-icon>
+      </button>
+      </mat-card-actions>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ entity?.description }}</p>
+      <p>{{ entity?.from | date:"yyyy-MM-dd" }}{{ entity?.to ? ' - ' + (entity?.to  | date:"yyyy-MM-dd") : '' }}</p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngSwitchCase="'education'">
+    <mat-card-header>
+      <div mat-card-avatar class="education-avatar"></div>
+      <mat-card-title>{{ entity?.institute }} ({{ entity?.type }})</mat-card-title>
+      <mat-card-subtitle>{{ entity?.specialization }}</mat-card-subtitle>
+      <mat-card-actions *ngIf="allowDelete">
+        <button
+        mat-mini-fab
+        class="delete-button"
+        color="warn"
+        (click)="delete()">
+        <mat-icon>cancel</mat-icon>
+      </button>
+      </mat-card-actions>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ entity?.from | date:"yyyy-MM-dd" }} - {{ entity?.to | date:"yyyy-MM-dd" }}</p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngSwitchCase="'language'">
+    <mat-card-header>
+      <div mat-card-avatar class="language-avatar"></div>
+      <mat-card-actions *ngIf="allowDelete">
+        <button
+        mat-mini-fab
+        class="delete-button"
+        color="warn"
+        (click)="delete()">
+        <mat-icon>cancel</mat-icon>
+      </button>
+      </mat-card-actions>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Language: {{ entity?.lang }}</p>
+      <p>Level: {{ entity?.lang_level }}</p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngSwitchCase="'contact'" class="card-contact">
+    <mat-card-header>
+      <div mat-card-avatar *ngIf="entity?.type"
+           class="{{(entity?.type === 'other' ? '' : entity?.type +'-') + 'contact-avatar'}} mat-card-avatar"></div>
+      <mat-card-title *ngIf="entity?.other_type">{{ entity?.other_type }}</mat-card-title>
+      <mat-card-title *ngIf="entity?.type !== 'other'">
+        <ng-container [ngSwitch]="entity?.type">
+          <ng-container *ngSwitchCase="'url'">
+            <a href="{{ entity?.value }}" target="_blank">{{ entity?.value }}</a>
+          </ng-container>
+          <ng-container *ngSwitchCase="'phone'">
+            <a href="call:{{ entity?.value }}">{{ entity?.value }}</a>
+          </ng-container>
+          <ng-container *ngSwitchCase="'email'">
+            <a href="mail:{{ entity?.value }}">{{ entity?.value }}</a>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            {{ entity?.value }}
+          </ng-container>
+        </ng-container>
+      </mat-card-title>
+      <mat-card-subtitle *ngIf="entity?.type !== 'other'">{{ entity?.type }}</mat-card-subtitle>
+      <mat-card-actions *ngIf="allowDelete">
+        <button
+        mat-mini-fab
+        class="delete-button"
+        color="warn"
+        (click)="delete()">
+        <mat-icon>cancel</mat-icon>
+      </button>
+      </mat-card-actions>
+    </mat-card-header>
+    <mat-card-content *ngIf="entity?.type === 'other'">
+      <p>{{ entity?.value }}</p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngSwitchCase="'skill'">
+    <mat-card-header>
+      <mat-card-title>Skills</mat-card-title>
+      <mat-card-actions *ngIf="allowDelete">
+        <button
+        mat-mini-fab
+        class="delete-button"
+        color="warn"
+        (click)="delete()">
+        <mat-icon>cancel</mat-icon>
+      </button>
+      </mat-card-actions>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-chip-list>
+        <mat-chip *ngFor="let element of entity">
+          {{ element }}
+        </mat-chip>
+      </mat-chip-list>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngSwitchDefault>
+    <mat-card-content>
+      Not supported widget!
+    </mat-card-content>
+  </mat-card>
+</ng-container>

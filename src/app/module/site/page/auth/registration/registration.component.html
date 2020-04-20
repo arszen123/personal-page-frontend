@@ -6,14 +6,22 @@
     <input matInput placeholder="Last name" type="text" formControlName="last_name">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="email" type="email" formControlName="email">
+    <input matInput placeholder="Email" type="email" formControlName="email">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="password" type="password" formControlName="password">
+    <input matInput placeholder="Password" type="password" formControlName="password">
   </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="Repeat password" type="password" formControlName="passwordConfirmation">
   </mat-form-field>
-  <button mat-button (click)="register()">Register</button>
+  <div class="info">
+    <mat-error *ngIf="error">
+      {{ error.message }}
+    </mat-error>
+  </div>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="register()">Register</button>
 </form>

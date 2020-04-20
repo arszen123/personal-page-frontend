@@ -1,0 +1,17 @@
+<div id="container">
+  <mat-list *ngIf="apps.length > 0">
+    <mat-list-item *ngFor="let app of apps" class="app-item">
+      {{ app.name }}
+      <button
+        mat-raised-button
+        color="primary"
+        class="delete-button"
+        (click)="deleteApp(app.id)"
+      >Delete
+      </button>
+    </mat-list-item>
+  </mat-list>
+  <p *ngIf="apps.length === 0" style="text-align: center">
+    No authorized apps
+  </p>
+</div>

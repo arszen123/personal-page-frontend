@@ -81,7 +81,7 @@ export class ChipFormElementComponent implements OnInit, OnDestroy, MatFormField
   set value(elements: Array<string> | null) {
     this.elements = elements;
     this.stateChanges.next();
-    this.onChange(this.value);
+    this.onChange(this.elements);
   }
 
   ngOnInit() {
@@ -107,7 +107,6 @@ export class ChipFormElementComponent implements OnInit, OnDestroy, MatFormField
       this.elements.push(value.trim());
       this.elements = Utils.unique(this.elements);
       this.value = this.elements;
-      this.stateChanges.next();
     }
 
     if (input) {

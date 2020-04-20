@@ -13,7 +13,7 @@
         <mat-datepicker #picker></mat-datepicker>
         <mat-error *ngFor="let errorMessage of formData.elements[elementName].errors | keyvalue">
           <p
-            *ngIf="formData.elements[elementName].errors[errorMessage.key]">{{ errorMessage.value }}</p>
+            *ngIf="formData.elements[elementName].errors[errorMessage.key] && form.hasError(errorMessage.key, elementName)">{{ errorMessage.value }}</p>
         </mat-error>
       </mat-form-field>
       <mat-slide-toggle *ngSwitchCase="'toggle'" [formControlName]="elementName" [style.display]="formData.elements[elementName].hidden ? 'none' : 'block'">
@@ -49,6 +49,58 @@
         >
         </app-chip-form-element>
       </mat-form-field>
+      <div *ngSwitchCase="'picture_upload'" [style.display]="formData.elements[elementName].hidden ? 'none' : 'block'" style="align-content: center">
+        <div class="image">
+          <img #imagePreview [attr.data-src]="filesPreview[elementName] || '/assets/img/placeholder.png'" [src]="filesPreview[elementName] || '/assets/img/placeholder.png'" alt="image">
+        </div>
+        <div class="file-input-actions">
+          <button
+            type="button"
+            mat-button
+            label="upload"
+            color="primary"
+            (click)="pictureUpload.click()"
+          >
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-button
+            label="remove"
+            color="warn"
+            [disabled]="filesPreview[elementName] === null && pictureUpload.value === ''"
+            (click)="filesPreview[elementName] = null; form.controls[elementName].setValue(''); pictureUpload.value = ''; onFileChanged(elementName, pictureUpload); setImage(pictureUpload, imagePreview)"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <input
+          #pictureUpload
+          [hidden]="true"
+          [required]="formData.elements[elementName].required"
+          [placeholder]="formData.elements[elementName].placeholder"
+          type="file"
+          (change)="onFileChanged(elementName, pictureUpload); setImage(pictureUpload, imagePreview)"
+          [formControlName]="elementName">
+        <mat-error *ngFor="let errorMessage of formData.elements[elementName].errors | keyvalue">
+          <p *ngIf="form.controls[elementName].touched &&  formData.elements[elementName].errors[errorMessage.key] && form.hasError(errorMessage.key, elementName)">
+            {{ errorMessage.value }}
+          </p>
+        </mat-error>
+      </div>
+      <mat-form-field *ngSwitchCase="'textarea'" [style.display]="formData.elements[elementName].hidden ? 'none' : 'block'">
+        <textarea
+          matInput
+          [required]="formData.elements[elementName].required"
+          [placeholder]="formData.elements[elementName].placeholder"
+          [type]="formData.elements[elementName].type"
+          [formControlName]="elementName"></textarea>
+        <mat-error *ngFor="let errorMessage of formData.elements[elementName].errors | keyvalue">
+          <p *ngIf="formData.elements[elementName].errors[errorMessage.key] && form.hasError(errorMessage.key, elementName)">
+            {{ errorMessage.value }}
+          </p>
+        </mat-error>
+      </mat-form-field>
       <mat-form-field *ngSwitchDefault [style.display]="formData.elements[elementName].hidden ? 'none' : 'block'">
         <input
           matInput
@@ -56,8 +108,10 @@
           [placeholder]="formData.elements[elementName].placeholder"
           [type]="formData.elements[elementName].type"
           [formControlName]="elementName">
-        <mat-error *ngFor="let errorMessage of formData.elements[elementName].errors | keyvalue"><p
-          *ngIf="formData.elements[elementName].errors[errorMessage.key]">{{ errorMessage.value }}</p>
+        <mat-error *ngFor="let errorMessage of formData.elements[elementName].errors | keyvalue">
+          <p *ngIf="formData.elements[elementName].errors[errorMessage.key] && form.hasError(errorMessage.key, elementName)">
+            {{ errorMessage.value }}
+          </p>
         </mat-error>
       </mat-form-field>
     </ng-container>

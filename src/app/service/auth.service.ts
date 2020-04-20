@@ -7,6 +7,7 @@ import {BehaviorSubject, Observable, of} from "rxjs";
 import {User} from "@app-interface/User";
 import {environment} from '@environments/environment';
 import {UserRegistration} from "@app/interface/UserRegistration";
+import {TokenResponse} from "@app/interface/TokenResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -20,24 +21,27 @@ export class AuthService {
 
   public login(auth: AuthCredential): Observable<User> {
     if (LocalStore.has('user')) {
+      if (this.isTokenExpired()) {
+        this.logout();
+        return;
+      }
       return of(LocalStore.get('user'));
     }
-    let req = this.http.post(environment.apiUrl + 'authentication/login', auth)
+    return <Observable<User>>this.http.post(environment.apiUrl + 'authentication/login', auth)
       .pipe(
-        map(val => {
-          // @ts-ignore
+        map((val: TokenResponse) => {
           LocalStore.set('token', val.token);
-          return this.http.get('http://127.0.0.1:8080/user');
+          LocalStore.set('token_expires_at', val.expires_at);
+          this.isLoggedIn$.next(this.isLoggedIn());
+          return this.http.get(environment.apiUrl + 'user').pipe(map(
+            (user: User) => {
+              LocalStore.set('user', user);
+              return user;
+            }
+          ));
         }),
         concatAll()
       );
-    req.subscribe(
-      (val) => {
-        LocalStore.set('user', val);
-        this.isLoggedIn$.next(this.isLoggedIn());
-      });
-    // @ts-ignore
-    return req;
   }
 
   public getUser(): User {
@@ -47,6 +51,7 @@ export class AuthService {
   public logout() {
     LocalStore.remove('user');
     LocalStore.remove('token');
+    LocalStore.remove('token_expires_at');
     this.isLoggedIn$.next(this.isLoggedIn());
   }
 
@@ -62,19 +67,26 @@ export class AuthService {
     return LocalStore.get('token');
   }
 
-  register(user: UserRegistration) {
-    let req = this.http.post(environment.apiUrl + 'user', user);
-    req.subscribe(
-      (val) => {
-        // @ts-ignore
-        LocalStore.set('token', val.token);
-        LocalStore.set('user', {
-          first_name: user.first_name,
-          last_name: user.last_name,
-          email: user.email,
-        });
-        this.isLoggedIn$.next(this.isLoggedIn());
-      });
-    return req;
+  public register(user: UserRegistration) {
+    return this.http.post(environment.apiUrl + 'user', user).pipe(map(
+        (val: TokenResponse) => {
+          LocalStore.set('token', val.token);
+          LocalStore.set('token_expires_at', val.expires_at);
+          LocalStore.set('user', {
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+          });
+          this.isLoggedIn$.next(this.isLoggedIn());
+
+          return val;
+        }));
+  }
+
+  public isTokenExpired(): boolean {
+    const tokenExpiration = new Date(LocalStore.get('token_expires_at'));
+    const now = new Date();
+    // @TODO deal with different timezones
+    return  tokenExpiration < now;
   }
 }

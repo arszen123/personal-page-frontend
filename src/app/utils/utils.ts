@@ -16,4 +16,12 @@ export default class Utils {
   public static unique(arr) {
     return arr.filter((value, index, self) => self.indexOf(value) === index);
   }
+  public static hideFormElement(formData) {
+    formData.required = false;
+    formData.hidden = true;
+  }
+  public static showFormElement(formData, required = true) {
+    formData.required = required;
+    formData.hidden = false;
+  }
 }

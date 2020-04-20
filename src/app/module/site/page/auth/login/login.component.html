@@ -1,10 +1,16 @@
 <form [formGroup]="loginForm">
   <mat-form-field>
-    <input matInput placeholder="email" type="email" formControlName="email">
+    <input matInput placeholder="Email" type="email" formControlName="email">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="password" type="password" formControlName="password">
+    <input matInput placeholder="Password" type="password" formControlName="password">
   </mat-form-field>
-  <button mat-button (click)="login()">Login</button>
+  <div class="info">
+    <mat-error *ngIf="error">{{ error.message }}</mat-error>
+  </div>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="login()">Login</button>
 </form>

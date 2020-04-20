@@ -5,13 +5,15 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#" routerLink="/app/personal-data">Personal data</a>
-      <a mat-list-item href="#" routerLink="/app/experience">Experience</a>
-      <a mat-list-item href="#" routerLink="/app/education">Education</a>
-      <a mat-list-item href="#" routerLink="/app/language">Language</a>
-      <a mat-list-item href="#" routerLink="/app/contact">Contact</a>
-      <a mat-list-item href="#" routerLink="/app/skill">Skill</a>
-      <a mat-list-item href="#" routerLink="/app">Home</a>
+      <a mat-list-item href="#" routerLink="/app/profile/personal-data">Personal data</a>
+      <a mat-list-item href="#" routerLink="/app/profile/experience">Experience</a>
+      <a mat-list-item href="#" routerLink="/app/profile/education">Education</a>
+      <a mat-list-item href="#" routerLink="/app/profile/language">Language</a>
+      <a mat-list-item href="#" routerLink="/app/profile/contact">Contact</a>
+      <a mat-list-item href="#" routerLink="/app/profile/skill">Skill</a>
+      <a mat-list-item href="#" routerLink="/app/page">Page</a>
+      <a mat-list-item href="#" routerLink="/app/oauth/apps">Authorized apps</a>
+      <a mat-list-item href="#" (click)="logout()">Logout</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -24,7 +26,8 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>personal-page</span>
+      <span>Personal Page</span>
+      <span style="position: absolute; right: 50px">{{ authService?.getUser()?.first_name }} {{ authService?.getUser()?.last_name }}</span>
     </mat-toolbar>
     <ng-content></ng-content>
   </mat-sidenav-content>

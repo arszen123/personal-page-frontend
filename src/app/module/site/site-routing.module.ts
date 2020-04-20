@@ -11,6 +11,9 @@ import {ContactComponent} from "@app/module/site/page/app/profile/contact/contac
 import {SkillComponent} from "@app/module/site/page/app/profile/skill/skill.component";
 import {LanguageComponent} from "@app/module/site/page/app/profile/language/language.component";
 import {FormNotSavedGuard} from "@app/guard/form-not-saved.guard";
+import {PageComponent} from "@app/module/site/page/app/page/page/page.component";
+import {OauthComponent} from "@app/module/site/page/auth/oauth/oauth.component";
+import {AppsComponent} from "@app/module/site/page/app/oauth/apps/apps.component";
 
 
 const routes: Routes = [
@@ -23,18 +26,39 @@ const routes: Routes = [
       {path: '**', component: AuthLayoutComponent}
     ]
   },
+  {path: 'oauth/authorize', component: OauthComponent, data: {}},
   {
     path: 'app',
     canActivate: [AuthGuard],
     component: SiteComponent,
     children: [
-      // {path: '', component: SiteComponent},
-      {path: 'personal-data', component: PersonalDataComponent, canDeactivate:[FormNotSavedGuard]},
-      {path: 'experience', component: WorkExperienceComponent, canDeactivate:[FormNotSavedGuard]},
-      {path: 'education', component: EducationComponent, canDeactivate:[FormNotSavedGuard]},
-      {path: 'contact', component: ContactComponent, canDeactivate:[FormNotSavedGuard]},
-      {path: 'skill', component: SkillComponent, canDeactivate:[FormNotSavedGuard]},
-      {path: 'language', component: LanguageComponent, canDeactivate:[FormNotSavedGuard]},
+      {
+        path: 'profile',
+        children: [
+          {path: 'personal-data', component: PersonalDataComponent, canActivate: [AuthGuard], canDeactivate: [FormNotSavedGuard]},
+          {path: 'experience', component: WorkExperienceComponent, canActivate: [AuthGuard], canDeactivate: [FormNotSavedGuard]},
+          {path: 'education', component: EducationComponent, canActivate: [AuthGuard], canDeactivate: [FormNotSavedGuard]},
+          {path: 'contact', component: ContactComponent, canActivate: [AuthGuard], canDeactivate: [FormNotSavedGuard]},
+          {path: 'skill', component: SkillComponent, canActivate: [AuthGuard], canDeactivate: [FormNotSavedGuard]},
+          {path: 'language', component: LanguageComponent, canActivate: [AuthGuard], canDeactivate: [FormNotSavedGuard]},
+        ]
+      },
+      {
+        path: 'page',
+        component: PageComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'oauth/apps',
+        component: AppsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: '**',
+        component: PersonalDataComponent,
+        canActivate: [AuthGuard],
+        canDeactivate: [FormNotSavedGuard]
+      }
     ]
   },
   {path: '**', component: SiteComponent}

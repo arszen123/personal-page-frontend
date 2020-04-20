@@ -1,63 +1,27 @@
 import {Injectable} from '@angular/core';
-import {Repository} from "@app/interface/Repository";
+import {BaseRepository} from "@app/repository/BaseRepository";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "@environments/environment";
-import {forkJoin} from "rxjs";
+import {PageService} from "@app/repository/page.service";
+import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
-export class LanguageService implements Repository {
+export class LanguageService extends BaseRepository {
+  protected url = 'user/language';
 
   constructor(
-    private http: HttpClient
+    protected http: HttpClient,
+    protected pageRepository: PageService
   ) {
+    super();
   }
 
-  public saveAll(data) {
-    let res = [];
-    data = {...data};
-    for (let dataKey in data) {
-      let id = data[dataKey].id;
-      if (id) {
-        res.push(this.update(id, data[dataKey]));
-        continue;
-      }
-      res.push(this.save(data[dataKey]));
-    }
-    return forkJoin(res)
-      .pipe(
-        map((value: Array<any>) => {
-          return {success: value.every(value1 => value1.success === true)}
-        })
-      );
-  }
-
-  public getAll() {
-    return this.http.get(environment.apiUrl + 'user/languages');
-  }
-
-  public save(data) {
-    let req = this.http.post(environment.apiUrl + 'user/language', data);
-    return req;
-  }
-
-  public update(id, data) {
-    let req = this.http.put(environment.apiUrl + `user/language/${id}`, data);
-    return req;
-  }
-
-  public deleteAll(ids) {
-    let res = [];
-    for (let i in ids) {
-      res.push(this.delete(ids[i]));
-    }
-    return forkJoin(res);
-  }
-
-  public delete(id) {
-    let req = this.http.delete(environment.apiUrl + `user/language/${id}`);
-    return req;
+  delete(id: string): Observable<{ success: boolean }> {
+    return super.delete(id).pipe(map(value => {
+      this.pageRepository.deleteWidget(id, 'language');
+      return value;
+    }))
   }
 }

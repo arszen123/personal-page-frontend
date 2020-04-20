@@ -23,7 +23,13 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "@libria/gridstack": "^8.0.1",
+    "gridstack": "~0.3.0",
     "hammerjs": "^2.0.8",
+    "jquery": "~2.2.0",
+    "jquery-ui-dist": "~1.12.1",
+    "languages": "^0.1.3",
+    "lodash": "^4.17.15",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

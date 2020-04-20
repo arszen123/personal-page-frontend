@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {AuthCredential} from "@app-interface/AuthCredential";
 import {AuthService} from "@app-service/auth.service";
 import {FormBuilder, Validators} from "@angular/forms";
@@ -10,12 +10,16 @@ import {environment} from "@environments/environment";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   protected authCredential: AuthCredential = {
     email: null,
     password: null,
   };
   private loginForm;
+  private error;
+  private subSubscription$ = null;
+  @Input()
+  private doRedirect: boolean = true;
 
   constructor(
     private authService: AuthService,
@@ -31,14 +35,31 @@ export class LoginComponent implements OnInit {
     })
   }
 
+  ngOnDestroy(): void {
+    this.unsubscribeLogin();
+  }
+
+  private unsubscribeLogin()
+  {
+    if (this.subSubscription$ !== null) {
+      this.subSubscription$.unsubscribe();
+      this.subSubscription$ = null;
+    }
+  }
+
   protected login() {
+    this.unsubscribeLogin();
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value)
+      this.subSubscription$ = this.authService.login(this.loginForm.value)
         .subscribe(() => {
-          this.router.navigate([environment.appBaseUrl])
+          if (this.doRedirect) {
+            this.router.navigate([environment.appBaseUrl]);
+            return;
+          }
+          window.location.href = window.location.href;
           },
           error => {
-            // @todo handel error message
+            this.error = error.error;
           })
     }
   }

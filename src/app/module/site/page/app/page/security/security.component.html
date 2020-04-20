@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Security</h2>
+<mat-dialog-content>
+  <app-form-builder #form [data]="formData"></app-form-builder>
+  <button mat-button (click)="isFormValid() ? closeTrue.click() : false">Ok</button>
+  <button mat-button (click)="closeFalse.click()">Cancel</button>
+</mat-dialog-content>
+<mat-dialog-actions style="display: none">
+  <button #closeFalse [mat-dialog-close]="null"></button>
+  <button #closeTrue [mat-dialog-close]="getValue()"></button>
+</mat-dialog-actions>

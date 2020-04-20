@@ -1,0 +1,56 @@
+<div id="profile-container">
+  <div class="container">
+    <div class="image">
+      <img [src]="(personalData | async)?.profile_picture || 'https://via.placeholder.com/350'"/>
+    </div>
+    <div class="description">
+      <h1 class="name">{{ (personalData | async)?.first_name + ' ' + (personalData | async)?.last_name }}</h1>
+      <p class="bio">
+        {{ (personalData | async)?.bio }}
+      </p>
+    </div>
+    <div class="content">
+      <div id="grid"
+           lb-gridstack
+           width="24">
+        <div *ngFor="let widget of widgets; let i = index"
+             lb-gridstack-item
+             [x]="widget?.gs?.x"
+             [y]="widget?.gs?.y"
+             [max-width]="widget?.gs?.max_width"
+             [max-height]="widget?.gs?.max_height"
+             [width]="widget?.gs?.width"
+             [height]="widget?.gs?.height"
+             [locked]="true"
+             #gridstackItem
+        >
+          <app-widget-edit [data]="widget" (delete)="delete(i)"></app-widget-edit>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button
+    id="settings-button"
+    mat-fab
+    color="primary"
+    aria-label="Settings"
+    (click)="settings()">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <button
+    id="add-button"
+    mat-fab
+    color="primary"
+    aria-label="Add"
+    (click)="addWidget()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <button
+    id="save-button"
+    mat-fab
+    color="primary"
+    aria-label="Add"
+    (click)="save()">
+    <mat-icon>done</mat-icon>
+  </button>
+</div>

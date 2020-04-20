@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,7 +15,7 @@ import {PublicModule} from './module/public/public.module';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BaseInterceptor} from "@app/http-interceptors/base-interceptor";
 import {AuthInterceptor} from "@app/http-interceptors/auth-interceptor";
-import {MatNativeDateModule, MatSnackBarModule} from "@angular/material";
+import {MatCardModule, MatChipsModule, MatNativeDateModule, MatSnackBarModule} from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -35,7 +35,9 @@ import {MatNativeDateModule, MatSnackBarModule} from "@angular/material";
     SiteModule,
     AppRoutingModule,
     MatNativeDateModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatCardModule,
+    MatChipsModule
   ],
   providers: [
     {
@@ -49,6 +51,7 @@ import {MatNativeDateModule, MatSnackBarModule} from "@angular/material";
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class AppModule { }

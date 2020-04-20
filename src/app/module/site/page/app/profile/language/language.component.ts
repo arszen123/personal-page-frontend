@@ -2,12 +2,13 @@ import {AfterViewInit, Component, QueryList, ViewChildren} from '@angular/core';
 import Utils from "@app/utils/utils";
 import {FormBuilderComponent} from "@app/module/site/component/form-builder/form-builder.component";
 import {form as formData} from '@assets/form';
-import {LanguageService} from "@app/repository/language.service";
+import {LanguageService as LanguageRepository} from "@app/repository/language.service";
+import {LanguageService} from "@app/service/language.service";
 import {ConfirmDialogComponent} from "@app/module/site/component/confirm-dialog/confirm-dialog.component";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {OnBeforeDeactivate} from "@app/interface/OnBeforeDeactivate";
 import {RepositoryHelper} from "@app/helper/repository-helper";
-import {FormController} from "@app/interface/form-controller";
+import {FormController} from "@app/interface/FormController";
 
 @Component({
   selector: 'app-language',
@@ -16,16 +17,19 @@ import {FormController} from "@app/interface/form-controller";
 })
 export class LanguageComponent implements OnBeforeDeactivate, AfterViewInit, FormController {
   private formData = formData.language;
-  private forms = [Utils.clone(this.formData)];
+  private forms = [];
   @ViewChildren('form')
   private formQueryList: QueryList<FormBuilderComponent>;
   private repositoryHelper: RepositoryHelper;
 
   constructor(
-    private repository: LanguageService,
+    private repository: LanguageRepository,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
+    private languages: LanguageService
   ) {
+    this.formData.elements.lang_id.options = this.languages.getLanguages();
+    this.forms.push(Utils.clone(this.formData));
   }
 
   private get isNotChangedFormsValue() {

@@ -41,8 +41,7 @@ export class PersonalDataComponent implements OnBeforeDeactivate {
     this.form.submit();
     if (this.form.isValid()) {
       this.repository.save(this.form.getValue())
-        .subscribe(val => {
-            //@ts-ignore
+        .subscribe((val: any) => {
             if (val.success) {
               this.snackBar.open('Success!', 'OK', {duration: 2000});
               this.form.markValueUnChanged();

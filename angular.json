@@ -29,9 +29,17 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "./node_modules/gridstack/dist/gridstack.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/lodash/lodash.min.js",
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/jquery-ui-dist/jquery-ui.js",
+              "./node_modules/gridstack/dist/gridstack.js",
+              "./node_modules/gridstack/dist/gridstack.jQueryUI.js",
+              "./node_modules/languages/languages.js"
+            ]
           },
           "configurations": {
             "production": {

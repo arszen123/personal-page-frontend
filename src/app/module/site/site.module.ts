@@ -32,6 +32,14 @@ import {ContactComponent} from './page/app/profile/contact/contact.component';
 import {LanguageComponent} from './page/app/profile/language/language.component';
 import {ConfirmDialogComponent} from './component/confirm-dialog/confirm-dialog.component';
 import { ChipFormElementComponent } from './component/chip-form-element/chip-form-element.component';
+import { PageComponent } from './page/app/page/page/page.component';
+import {GridstackModule} from "@libria/gridstack";
+import { AddWidgetComponent } from './component/add-widget/add-widget.component';
+import { WidgetComponent } from './component/widget/widget.component';
+import { SecurityComponent } from './page/app/page/security/security.component';
+import {PublicModule} from "@app/module/public/public.module";
+import { OauthComponent } from './page/auth/oauth/oauth.component';
+import { AppsComponent } from './page/app/oauth/apps/apps.component';
 
 
 @NgModule({
@@ -50,7 +58,13 @@ import { ChipFormElementComponent } from './component/chip-form-element/chip-for
     ContactComponent,
     LanguageComponent,
     ConfirmDialogComponent,
-    ChipFormElementComponent
+    ChipFormElementComponent,
+    PageComponent,
+    AddWidgetComponent,
+    WidgetComponent,
+    SecurityComponent,
+    OauthComponent,
+    AppsComponent
   ],
   imports: [
     CommonModule,
@@ -70,9 +84,15 @@ import { ChipFormElementComponent } from './component/chip-form-element/chip-for
     MatCardModule,
     MatDialogModule,
     MatSelectModule,
-    MatChipsModule
+    MatChipsModule,
+    GridstackModule.forRoot(),
+    PublicModule
   ],
-  entryComponents: [ConfirmDialogComponent]
+  entryComponents: [
+    ConfirmDialogComponent,
+    AddWidgetComponent,
+    SecurityComponent,
+  ]
 })
 export class SiteModule {
 }

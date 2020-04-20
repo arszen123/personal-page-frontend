@@ -1,0 +1,29 @@
+.container {
+  display: block;
+  width: calc(50% - 20px);
+  margin: 0;
+  left: 25%;
+  right: 25%;
+  position: absolute;
+  text-align: center;
+  border-style: solid;
+  border-color: black;
+  border-radius: 25px;
+  top: 25%;
+  padding: 10px;
+
+  mat-tab-group mat-tab {
+    width: 50%;
+    position: relative;
+    left: 25%;
+  }
+
+  .mat-tab-body {
+    width: 50%;
+    position: relative;
+    left: 25%;
+  }
+  #cancel {
+    margin-right: 10px;
+  }
+}

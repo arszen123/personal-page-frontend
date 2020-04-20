@@ -1,0 +1,13 @@
+.app-item {
+  border-style: solid;
+  border-color: #673ab7; // @TODO-refact
+  margin-bottom: 5px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .delete-button {
+    position:absolute;
+    right: 25px;
+  }
+}

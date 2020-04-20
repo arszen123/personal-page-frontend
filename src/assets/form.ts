@@ -1,5 +1,4 @@
-import {Validators} from "@angular/forms";
-import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {AsyncValidator, AsyncValidatorFn, ValidatorFn, Validators} from "@angular/forms";
 
 export const form: {
   [key: string]: {
@@ -9,7 +8,8 @@ export const form: {
         placeholder?: string,
         required?: boolean,
         hidden?: boolean,
-        validators?: Array<any>,
+        validators?: Array<ValidatorFn>,
+        validators_async?: Array<AsyncValidatorFn | AsyncValidator>,
         value?: string,
         errors?: {
           [key: string]: string
@@ -24,6 +24,17 @@ export const form: {
 } = {
   personal_data: {
     elements: {
+      profile_picture: {
+        type: 'picture_upload',
+        placeholder: 'Profile picture',
+        // required: true,
+        validators: [
+          // Validators.required
+        ],
+        errors: {
+          // required: 'Profile picture is required'
+        }
+      },
       first_name: {
         type: 'text',
         placeholder: 'First name',
@@ -59,14 +70,31 @@ export const form: {
       living_place: {
         type: 'text',
         placeholder: 'Living place'
-      }
+      },
+      bio: {
+        type: 'textarea',
+        placeholder: 'Bio',
+        required: true,
+        validators: [
+          Validators.required,
+          Validators.maxLength(250),
+          Validators.minLength(25)
+        ],
+        errors: {
+          required: 'Bio is required',
+          minlength: 'Min length is 25 character',
+          maxlength: 'Max length is 250 character',
+        }
+      },
     },
     order: [
+      'profile_picture',
       'first_name',
       'last_name',
       'birth_date',
       'birth_place',
       'living_place',
+      'bio',
     ]
   },
   experience: {
@@ -212,11 +240,7 @@ export const form: {
         errors: {
           required: 'Language is required',
         },
-        //@todo add langauges
-        options: {
-          'hu': 'Hungary',
-          'en': 'English',
-        }
+        options: {}
       },
       lang_level_id: {
         type: 'select',
@@ -299,6 +323,80 @@ export const form: {
     },
     order: [
       'skill',
+    ]
+  },
+  widget: {
+    elements: {
+      type: {
+        type: 'select',
+        placeholder: 'Type',
+        required: true,
+        validators: [Validators.required],
+        errors: {
+          required: 'Type is required',
+        },
+        options: {
+          experience: 'Experience',
+          education: 'Education',
+          language: 'Language',
+          contact: 'Contact',
+          skill: 'Skill',
+        }
+      },
+      element: {
+        type: 'select',
+        placeholder: 'element',
+        required: true,
+        validators: [],
+        errors: {
+          required: 'Element is required',
+        },
+        options: {}
+      }
+    },
+    order: [
+      'type',
+      'element',
+    ]
+  },
+  page_settings: {
+    elements: {
+      page_id: {
+        type: 'text',
+        placeholder: 'Page id',
+        required: true,
+        validators: [Validators.required],
+        validators_async: [],
+        errors: {
+          required: 'Page id is required',
+        }
+      },
+      security_level: {
+        type: 'select',
+        placeholder: 'Security level',
+        required: true,
+        validators: [Validators.required],
+        errors: {
+          required: 'Security level is required',
+        },
+        options: {
+          public: 'Public',
+          protected: 'Private with password',
+          private: 'Not available',
+        }
+      },
+      password: {
+        type: 'text',
+        placeholder: 'Password',
+        required: false,
+        hidden: true,
+        validators: [],
+      }
+    },
+    order: [
+      'page_id',
+      'security_level',
+      'password',
     ]
   }
 };
