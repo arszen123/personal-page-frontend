@@ -94,6 +94,25 @@ export class AuthService {
     ));
   }
 
+  /**
+   * If code is provided try to delete the user.
+   * If code is not provided, sends a confirmation email.
+   * @param code
+   */
+  public deleteUser(code?: string) {
+    if (code) {
+      return this.http.delete(environment.apiUrl + `user/delete/${code}`).pipe(map(
+        (val:any) => {
+          if (val.success) {
+            this.logout();
+          }
+          return val;
+        }
+      ));
+    }
+    return this.http.post(environment.apiUrl + 'user/delete', null);
+  }
+
   public isTokenExpired(): boolean {
     const tokenExpiration = new Date(LocalStore.get('token_expires_at'));
     const now = new Date();

@@ -1,0 +1,18 @@
+<div id="container">
+  <h2>Are you sure you want to delete your account?</h2>
+  <p>All of your data will be deleted, and your page will  no longer be available.</p>
+  <div>
+    <button
+      mat-flat-button
+      color="warn"
+      (click)="delete()"
+    >Yes, delete
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="stay()"
+    >Cancel
+    </button>
+  </div>
+</div>

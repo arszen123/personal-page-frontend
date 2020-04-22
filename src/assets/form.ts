@@ -399,7 +399,7 @@ export const form: {
       'password',
     ]
   },
-  profile: {
+  profile_settings: {
     elements: {
       email: {
         type: 'text',

@@ -40,7 +40,8 @@ import { SecurityComponent } from './page/app/page/security/security.component';
 import {PublicModule} from "@app/module/public/public.module";
 import { OauthComponent } from './page/auth/oauth/oauth.component';
 import { AppsComponent } from './page/app/oauth/apps/apps.component';
-import { ProfileComponent } from './page/app/profile/profile.component';
+import { SettingsComponent } from './page/app/profile/settings/settings.component';
+import { DeleteComponent } from './page/app/profile/delete/delete.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { ProfileComponent } from './page/app/profile/profile.component';
     SecurityComponent,
     OauthComponent,
     AppsComponent,
-    ProfileComponent
+    SettingsComponent,
+    DeleteComponent
   ],
   imports: [
     CommonModule,

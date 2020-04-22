@@ -1,5 +1,5 @@
 <div id="container">
-  <mat-list *ngIf="apps.length > 0">
+  <mat-list *ngIf="apps && apps.length > 0">
     <mat-list-item *ngFor="let app of apps" class="app-item">
       {{ app.name }}
       <button
@@ -11,7 +11,7 @@
       </button>
     </mat-list-item>
   </mat-list>
-  <p *ngIf="apps.length === 0" style="text-align: center">
+  <p *ngIf="!apps || apps.length === 0" style="text-align: center">
     No authorized apps
   </p>
 </div>

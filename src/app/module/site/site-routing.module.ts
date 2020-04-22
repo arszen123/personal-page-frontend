@@ -14,7 +14,8 @@ import {FormNotSavedGuard} from "@app/guard/form-not-saved.guard";
 import {PageComponent} from "@app/module/site/page/app/page/page/page.component";
 import {OauthComponent} from "@app/module/site/page/auth/oauth/oauth.component";
 import {AppsComponent} from "@app/module/site/page/app/oauth/apps/apps.component";
-import {ProfileComponent} from "@app/module/site/page/app/profile/profile.component";
+import {SettingsComponent} from "@app/module/site/page/app/profile/settings/settings.component";
+import {DeleteComponent} from "@app/module/site/page/app/profile/delete/delete.component";
 
 
 const routes: Routes = [
@@ -42,7 +43,8 @@ const routes: Routes = [
           {path: 'contact', component: ContactComponent, canActivate: [AuthGuard], canDeactivate: [FormNotSavedGuard]},
           {path: 'skill', component: SkillComponent, canActivate: [AuthGuard], canDeactivate: [FormNotSavedGuard]},
           {path: 'language', component: LanguageComponent, canActivate: [AuthGuard], canDeactivate: [FormNotSavedGuard]},
-          {path: 'settings', component: ProfileComponent, canActivate: [AuthGuard]},
+          {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
+          {path: 'delete/:code', component: DeleteComponent, canActivate: [AuthGuard]},
         ]
       },
       {

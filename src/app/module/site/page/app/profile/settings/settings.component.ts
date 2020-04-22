@@ -6,12 +6,12 @@ import {FormBuilderComponent} from "@app/module/site/component/form-builder/form
 import {MatSnackBar} from "@angular/material";
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  selector: 'app-profile-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss']
 })
-export class ProfileComponent implements AfterViewInit {
-  private formData = Utils.clone(formData.profile);
+export class SettingsComponent implements AfterViewInit {
+  private formData = Utils.clone(formData.profile_settings);
   @ViewChild('form', {static: true})
   private form: FormBuilderComponent;
 
@@ -55,5 +55,18 @@ export class ProfileComponent implements AfterViewInit {
       password: '',
       newPassword: '',
     });
+  }
+
+  private deleteProfile() {
+    const isDelete = confirm("Are you sure you wan't to delete your account?");
+    if (isDelete) {
+      this.authService.deleteUser().subscribe((value: any) => {
+        if (value.success) {
+          this.snackBar.open('A confirmation email was sent!', 'OK', {duration: 2000});
+        }
+      }, error => {
+        this.snackBar.open(error.error.message, 'OK', {duration: 2000});
+      })
+    }
   }
 }
