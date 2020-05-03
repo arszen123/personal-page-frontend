@@ -5,6 +5,7 @@ import {PageService} from "@app/repository/page.service";
 import {AuthService} from "@app/service/auth.service";
 import {SecurityComponent} from "@app/module/site/page/app/page/security/security.component";
 import {PersonalDataService} from "@app/repository/personal-data.service";
+import {OnBeforeDeactivate} from "@app/interface/OnBeforeDeactivate";
 
 declare var GridStack: any;
 
@@ -13,13 +14,14 @@ declare var GridStack: any;
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss']
 })
-export class PageComponent implements OnInit {
-  private grid: any;
+export class PageComponent implements OnInit, OnBeforeDeactivate {
   private widgets: Array<any> = [];
   @ViewChildren('gridstackItem')
   private widgetQuery: QueryList<any>;
   private security = {};
   private personalData;
+  private isSecurityChanged: boolean = false;
+  private isWidgetsChanged: boolean = false;
 
   constructor(
     private repository: PageService,
@@ -31,7 +33,6 @@ export class PageComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.grid = GridStack.init();
     this.repository
       .getAll()
       .subscribe((res: any) => {
@@ -48,6 +49,7 @@ export class PageComponent implements OnInit {
       .afterClosed().subscribe(value => {
       if (value) {
         this._adWidget(value);
+        this.isWidgetsChanged = true;
       }
     });
   }
@@ -79,6 +81,7 @@ export class PageComponent implements OnInit {
       .save({page: data, security: this.security})
       .subscribe(success => {
           if (success) {
+            this.markAsUntouched();
             this.snackBar.open('Success!', 'OK', {duration: 2000});
           }
         },
@@ -90,7 +93,9 @@ export class PageComponent implements OnInit {
     for (let i in this.widgets) {
       if (i != id) {
         tmpWidgets.push(this.widgets[i]);
+        continue;
       }
+      this.isWidgetsChanged = true;
     }
     this.widgets = tmpWidgets;
   }
@@ -102,8 +107,22 @@ export class PageComponent implements OnInit {
     });
     dialog.afterClosed().subscribe((val:any) => {
       if (typeof val === 'object' && val) {
+        this.isSecurityChanged = JSON.stringify(this.security) !== JSON.stringify(val);
         this.security = val;
       }
     })
+  }
+
+  public onBeforeDeactivate(): boolean {
+    let isValueChanged = this.isSecurityChanged || this.isWidgetsChanged;
+    if (isValueChanged) {
+      isValueChanged = !confirm('You have unsaved modifications!\nYou really want to unload the page?');
+    }
+    return !isValueChanged;
+  }
+
+  private markAsUntouched() {
+    this.isSecurityChanged = false;
+    this.isWidgetsChanged = false;
   }
 }

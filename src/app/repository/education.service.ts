@@ -24,14 +24,4 @@ export class EducationService extends BaseRepository {
       return value;
     }))
   }
-  save(data) {
-    data.from = data.from.toISOString().split('T')[0];
-    data.to   = data.to.toISOString().split('T')[0];
-    return super.save(data);
-  }
-  update(data: any) {
-    data.from = data.from.toISOString().split('T')[0];
-    data.to   = data.to.toISOString().split('T')[0];
-    return super.update(data);
-  }
 }

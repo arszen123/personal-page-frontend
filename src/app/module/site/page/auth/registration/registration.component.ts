@@ -49,13 +49,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     if (this.registrationForm.valid) {
       this.regSubscription$ = this.authService
         .register(this.registrationForm.value)
-        .subscribe((val) => {
-          console.log(val);
+        .subscribe(() => {
             this.router.navigate([environment.appBaseUrl])
           },
           error => {
             this.error = error.error;
-            console.log(error);
           });
     }
   }

@@ -44,7 +44,10 @@ export class SkillService implements Repository {
   }
 
   public save(data) {
-    return  this.http.post(environment.apiUrl + 'user/skills', data);
+    return this.http.post(environment.apiUrl + 'user/skills', data).pipe(map(value => {
+      this.data = data.skill;
+      return value;
+    }))
   }
 
   public update(id, data) {

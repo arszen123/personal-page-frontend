@@ -26,7 +26,6 @@ export class LanguageService {
   }
 
   public getLanguages() {
-    console.log(this.languages);
     return this.languages;
   }
 

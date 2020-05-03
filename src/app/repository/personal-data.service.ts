@@ -26,13 +26,18 @@ export class PersonalDataService implements Repository {
     if (body.profile_picture === null) {
       body.profile_picture = 'delete';
     }
-    // @todo
     if (typeof body.birth_date !== 'string') {
       body.birth_date = body.birth_date.toISOString().split('T')[0];
     }
     return this.http.put(environment.apiUrl + 'user/details', body)
       .pipe(map(value => {
-        const pp = this.data.profile_picture;
+        let pp = this.data.profile_picture;
+        if (body.profile_picture === 'delete') {
+          pp = '';
+        }
+        if (body.profile_picture && body.profile_picture !== 'delete') {
+          pp = body.profile_picture;
+        }
         this.data = body;
         this.data.profile_picture = pp;
         return value;

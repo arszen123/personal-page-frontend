@@ -40,7 +40,6 @@ export class OauthComponent implements OnInit {
         }
         return value1;
       })).subscribe(value1 => {
-        console.log(value1);
         this.checkClient = value1;
       })
     });

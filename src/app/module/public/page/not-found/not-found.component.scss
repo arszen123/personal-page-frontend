@@ -1,0 +1,29 @@
+#container {
+  height: auto;
+  min-height: 100%;
+  width: 100%;
+  padding-left: 0;
+  background-color: #00ACE5;
+}
+
+
+#header {
+  position: relative;
+  background-color: #0085B2;
+  text-align: center;
+  height: 400px;
+  div {
+    position: absolute;
+    width: 350px;
+    left: calc(50% - 350px / 2);
+    bottom: 40px;
+  }
+}
+
+#content {
+  text-align: center;
+  button {
+    padding: 10px;
+    margin: 10px;
+  }
+}

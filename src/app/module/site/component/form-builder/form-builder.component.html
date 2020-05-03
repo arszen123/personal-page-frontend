@@ -102,6 +102,7 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field *ngSwitchDefault [style.display]="formData.elements[elementName].hidden ? 'none' : 'block'">
+        <span matPrefix *ngIf="formData.elements[elementName].prefix">{{ formData.elements[elementName].prefix }}</span>
         <input
           matInput
           [required]="formData.elements[elementName].required"

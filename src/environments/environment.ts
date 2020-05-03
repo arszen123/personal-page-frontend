@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  appUrl: 'http://pp.devel/',
   apiUrl: 'http://pp.devel:8080/',
   appBaseUrl: '/app',
 };

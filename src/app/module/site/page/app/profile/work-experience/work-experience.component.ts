@@ -50,7 +50,6 @@ export class WorkExperienceComponent implements AfterViewInit, AfterViewChecked,
       );
     }
     this.repositoryHelper.syncData();
-    console.log(this.formQueryList);
     this.formQueryList.forEach(((item, index, array) => this.subscribeValueChanges(item, index, array)));
   }
 

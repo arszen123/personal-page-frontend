@@ -16,6 +16,7 @@ import {OauthComponent} from "@app/module/site/page/auth/oauth/oauth.component";
 import {AppsComponent} from "@app/module/site/page/app/oauth/apps/apps.component";
 import {SettingsComponent} from "@app/module/site/page/app/profile/settings/settings.component";
 import {DeleteComponent} from "@app/module/site/page/app/profile/delete/delete.component";
+import {NotFoundComponent} from "@app/module/public/page/not-found/not-found.component";
 
 
 const routes: Routes = [
@@ -51,6 +52,7 @@ const routes: Routes = [
         path: 'page',
         component: PageComponent,
         canActivate: [AuthGuard],
+        canDeactivate: [FormNotSavedGuard]
       },
       {
         path: 'oauth/apps',
@@ -65,7 +67,7 @@ const routes: Routes = [
       }
     ]
   },
-  {path: '**', component: SiteComponent}
+  {path: '**', component: NotFoundComponent}
 ];
 
 @NgModule({

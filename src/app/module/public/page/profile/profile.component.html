@@ -31,6 +31,14 @@
       </div>
     </div>
   </div>
+  <button
+    id="download-cv-button"
+    mat-fab
+    color="primary"
+    aria-label="Download CV"
+    (click)="downloadCv()">
+    <mat-icon>cloud_download</mat-icon>
+  </button>
 </div>
 <div *ngIf="!(isSuccess$ | async) && (needAuth$ | async)" class="password-container">
   <div>

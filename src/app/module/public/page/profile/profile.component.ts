@@ -1,9 +1,8 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PublicProfileService} from "@app/service/public-profile.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, of} from "rxjs";
 import LocalStore from "@app/utils/store";
-import Utils from "@app/utils/utils";
 
 @Component({
   selector: 'app-profile',
@@ -15,12 +14,12 @@ export class ProfileComponent implements OnInit {
   private isSuccess$: Observable<boolean> = of(false);
   private needAuth$: Observable<boolean> = of(false);
   private pageId: string = '';
+  private fileData: { filename: string | null; data: Blob };
 
   constructor(
     private profileService: PublicProfileService,
     private route: ActivatedRoute,
-    private router: Router,
-    private zone: NgZone
+    private router: Router
   ) {
   }
 
@@ -74,5 +73,29 @@ export class ProfileComponent implements OnInit {
           }
         });
 
+  }
+
+  private downloadCv() {
+    if (typeof this.fileData !== 'undefined') {
+      this._downloadFile(this.fileData.filename, this.fileData.data);
+      return;
+    }
+    this.profileService.downloadCV(this.pageId).subscribe((data) => {
+      if (data.filename === null) {
+        console.error('No file name');
+        return;
+      }
+      this.fileData = data;
+      this._downloadFile(data.filename, data.data);
+    });
+  }
+
+  private _downloadFile(filename: string, blob: Blob) {
+    const a = document.createElement('a');
+    const url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.target = '_blank';
+    a.download = filename;
+    a.click();
   }
 }

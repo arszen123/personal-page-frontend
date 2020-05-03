@@ -28,8 +28,7 @@ export class SkillComponent implements OnInit, OnBeforeDeactivate {
   }
 
   ngOnInit() {
-    let req = this.repository.getAll();
-    req.subscribe((val) => {
+    this.repository.getAll().subscribe((val) => {
       this.originalData = Utils.clone({skill: val});
       this.form.setDefaultValue(Utils.clone({skill: val}))
     });

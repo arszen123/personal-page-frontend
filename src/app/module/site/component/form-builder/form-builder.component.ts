@@ -19,7 +19,6 @@ import {Observable, Subscription, timer} from "rxjs";
  *     'element_name', ...
  *   ]
  * }
- * @todo compute change set
  */
 @Component({
   selector: 'app-form-builder',

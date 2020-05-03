@@ -1,4 +1,5 @@
 import {AsyncValidator, AsyncValidatorFn, ValidatorFn, Validators} from "@angular/forms";
+import {environment} from "@environments/environment";
 
 export const form: {
   [key: string]: {
@@ -11,6 +12,7 @@ export const form: {
         validators?: Array<ValidatorFn>,
         validators_async?: Array<AsyncValidatorFn | AsyncValidator>,
         value?: string,
+        prefix?: string,
         errors?: {
           [key: string]: string
         },
@@ -367,6 +369,7 @@ export const form: {
         required: true,
         validators: [Validators.required],
         validators_async: [],
+        prefix: environment.appUrl + 'profile/',
         errors: {
           required: 'Page id is required',
         }
