@@ -15,7 +15,7 @@ import Utils from "@app/utils/utils";
   styleUrls: ['./security.component.scss']
 })
 export class SecurityComponent implements OnInit, AfterViewInit {
-  private formData = Utils.clone(formData.page_settings);
+  public formData = Utils.clone(formData.page_settings);
   @ViewChild('form', {static: true})
   private form: FormBuilderComponent;
 
@@ -44,12 +44,12 @@ export class SecurityComponent implements OnInit, AfterViewInit {
     setTimeout(() => this.form.setDefaultValue(this.data));
   }
 
-  protected isFormValid() {
+  public isFormValid() {
     this.form.submit();
     return this.form.isValid();
   }
 
-  protected getValue() {
+  public getValue() {
     return this.form.getValue();
   }
 

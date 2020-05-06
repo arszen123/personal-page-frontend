@@ -8,7 +8,7 @@ import {OauthClient} from "@app/interface/OauthClient";
   styleUrls: ['./apps.component.scss']
 })
 export class AppsComponent implements OnInit {
-  private apps: Array<OauthClient>;
+  public apps: Array<OauthClient>;
 
   constructor(
     private oauth: OauthService
@@ -19,7 +19,7 @@ export class AppsComponent implements OnInit {
       this.apps = apps;
     });
   }
-  private deleteApp(id: string) {
+  public deleteApp(id: string) {
     this.oauth.deleteApp(id).subscribe(value => {
       this.oauth.getApps().subscribe(apps => {
         this.apps = apps;

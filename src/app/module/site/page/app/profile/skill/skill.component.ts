@@ -12,7 +12,7 @@ import Utils from "@app/utils/utils";
   styleUrls: ['./skill.component.scss']
 })
 export class SkillComponent implements OnInit, OnBeforeDeactivate {
-  private formData = formData.skill;
+  public formData = formData.skill;
   @ViewChild('form', {static: true})
   private form: FormBuilderComponent;
   private originalData: any;
@@ -23,7 +23,7 @@ export class SkillComponent implements OnInit, OnBeforeDeactivate {
   ) {
   }
 
-  private get isNotChangedFormsValue() {
+  public get isNotChangedFormsValue() {
     return !this.isValueChanged();
   }
 
@@ -42,7 +42,7 @@ export class SkillComponent implements OnInit, OnBeforeDeactivate {
     return !isValueChanged;
   }
 
-  private save() {
+  public save() {
     this.form.submit();
     if (this.form.isValid()) {
       let skills = this.form.getValue();

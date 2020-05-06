@@ -11,8 +11,8 @@ import {Subscription} from "rxjs";
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
-  private registrationForm;
-  private error;
+  public registrationForm;
+  public error;
   private regSubscription$: Subscription|null = null;
 
   constructor(

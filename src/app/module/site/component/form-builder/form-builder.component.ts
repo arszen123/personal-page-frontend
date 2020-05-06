@@ -29,13 +29,13 @@ export class FormBuilderComponent implements OnInit, OnDestroy {
   @Input('data')
   public formData;
 
-  private form: FormGroup = null;
+  public form: FormGroup = null;
   private valueChange = {};
   private _isValueChanged: boolean = false;
   private _defaultValue: any = {};
   private _valueChange: Subscription;
   private files: Object = {};
-  private filesPreview: Object = {};
+  public filesPreview: Object = {};
 
   constructor(
     private fb: FormBuilder
@@ -138,14 +138,14 @@ export class FormBuilderComponent implements OnInit, OnDestroy {
     this.form = this.fb.group(formGroupData);
   }
 
-  private onFileChanged(element: string, imageElement: HTMLInputElement) {
+  public onFileChanged(element: string, imageElement: HTMLInputElement) {
     this.getImageBase64Data(imageElement)
       .subscribe(value => {
         this.files[element] = value;
       })
   }
 
-  private setImage(imageElement: HTMLInputElement, previewElement: HTMLImageElement) {
+  public setImage(imageElement: HTMLInputElement, previewElement: HTMLImageElement) {
     this.getImageBase64Data(imageElement)
       .subscribe((value: any) => {
         if (value === '') {

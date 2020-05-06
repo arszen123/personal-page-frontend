@@ -13,7 +13,7 @@ import {LanguageService} from "@app/service/language.service";
   styleUrls: ['./add-widget.component.scss']
 })
 export class AddWidgetComponent implements OnInit, AfterViewInit {
-  private formData = formData.widget;
+  public formData = formData.widget;
   @ViewChild('form', {static: true})
   private form: FormBuilderComponent;
 
@@ -76,11 +76,11 @@ export class AddWidgetComponent implements OnInit, AfterViewInit {
     })
   }
 
-  private getValue() {
+  public getValue() {
     return this.form.getValue();
   }
 
-  private isFormValid() {
+  public isFormValid() {
     this.form.submit();
     return this.form.isValid();
   }

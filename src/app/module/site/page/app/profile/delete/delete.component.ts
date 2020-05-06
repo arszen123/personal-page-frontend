@@ -22,7 +22,7 @@ export class DeleteComponent implements OnInit {
       this.code = params.code;
     })
   }
-  private delete() {
+  public delete() {
     this.authService.deleteUser(this.code).subscribe((value: any) => {
       if (value.success) {
         this.router.navigate(['/app']);
@@ -31,7 +31,7 @@ export class DeleteComponent implements OnInit {
       this.snackBar.open(err.error.message, 'OK', {duration: 2000});
     })
   }
-  private stay() {
+  public stay() {
     this.router.navigate(['/app/profile/settings']);
   }
 }

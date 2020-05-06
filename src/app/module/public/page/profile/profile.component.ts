@@ -10,10 +10,10 @@ import LocalStore from "@app/utils/store";
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  private profileData: any;
-  private isSuccess$: Observable<boolean> = of(false);
-  private needAuth$: Observable<boolean> = of(false);
-  private pageId: string = '';
+  public profileData: any;
+  public isSuccess$: Observable<boolean> = of(false);
+  public needAuth$: Observable<boolean> = of(false);
+  public pageId: string = '';
   private fileData: { filename: string | null; data: Blob };
 
   constructor(
@@ -75,7 +75,7 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  private downloadCv() {
+  public downloadCv() {
     if (typeof this.fileData !== 'undefined') {
       this._downloadFile(this.fileData.filename, this.fileData.data);
       return;

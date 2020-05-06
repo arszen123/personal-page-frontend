@@ -8,11 +8,11 @@ import {LanguageService} from "@app/service/language.service";
 })
 export class WidgetComponent implements OnInit, OnChanges {
   @Input('data')
-  private entity: any = null;
+  public entity: any = null;
   @Input()
-  private type: string = null;
+  public type: string = null;
   @Input()
-  private allowDelete: boolean = false;
+  public allowDelete: boolean = false;
   @Output('delete')
   private _delete: EventEmitter<void> = new EventEmitter();
 
@@ -34,7 +34,7 @@ export class WidgetComponent implements OnInit, OnChanges {
     }
   }
 
-  private delete() {
+  public delete() {
     this._delete.emit();
   }
 }

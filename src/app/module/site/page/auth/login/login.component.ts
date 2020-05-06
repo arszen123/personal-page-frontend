@@ -15,8 +15,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     email: null,
     password: null,
   };
-  private loginForm;
-  private error;
+  public loginForm;
+  public error;
   private subSubscription$ = null;
   @Input()
   private doRedirect: boolean = true;
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected login() {
+  public login() {
     this.unsubscribeLogin();
     if (this.loginForm.valid) {
       this.subSubscription$ = this.authService.login(this.loginForm.value)

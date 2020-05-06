@@ -16,7 +16,7 @@ import {FormController} from "@app/interface/FormController";
 })
 export class WorkExperienceComponent implements AfterViewInit, AfterViewChecked, OnBeforeDeactivate, FormController {
   private formData = formData.experience;
-  private forms = [Utils.clone(formData.experience)];
+  public forms = [Utils.clone(formData.experience)];
   @ViewChildren('form')
   private formQueryList: QueryList<FormBuilderComponent>;
   private repositoryHelper: RepositoryHelper;
@@ -28,7 +28,7 @@ export class WorkExperienceComponent implements AfterViewInit, AfterViewChecked,
   ) {
   }
 
-  private get isNotChangedFormsValue() {
+  public get isNotChangedFormsValue() {
     return typeof this.repositoryHelper === 'undefined' || !this.repositoryHelper.isFormsValueChanged;
   }
 

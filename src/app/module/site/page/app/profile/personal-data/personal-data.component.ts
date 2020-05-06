@@ -11,7 +11,7 @@ import {OnBeforeDeactivate} from "@app/interface/OnBeforeDeactivate";
   styleUrls: ['./personal-data.component.scss']
 })
 export class PersonalDataComponent implements OnBeforeDeactivate {
-  private formData: any = formData.personal_data;
+  public formData: any = formData.personal_data;
   @ViewChild('form', {static: false})
   private form: FormBuilderComponent;
 
@@ -21,7 +21,7 @@ export class PersonalDataComponent implements OnBeforeDeactivate {
   ) {
   }
 
-  private get isNotChangedFormsValue() {
+  public get isNotChangedFormsValue() {
     return false; //@todo implement
   }
 
@@ -37,7 +37,7 @@ export class PersonalDataComponent implements OnBeforeDeactivate {
     return !isValueChanged;
   }
 
-  private save() {
+  public save() {
     this.form.submit();
     if (this.form.isValid()) {
       this.repository.save(this.form.getValue())

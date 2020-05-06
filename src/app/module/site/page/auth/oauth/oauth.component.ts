@@ -10,13 +10,13 @@ import {map} from "rxjs/operators";
   styleUrls: ['./oauth.component.scss']
 })
 export class OauthComponent implements OnInit {
-  private isLoggedIn: boolean = false;
-  private checkClient: any;
+  public isLoggedIn: boolean = false;
+  public checkClient: any;
   private authData: any;
   private isAllowedAuthorization = true;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private oAuth: OauthService,
     private router: ActivatedRoute
   ) {

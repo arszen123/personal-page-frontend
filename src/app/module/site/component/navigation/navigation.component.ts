@@ -20,11 +20,11 @@ export class NavigationComponent {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router,
   ) {}
 
-  protected logout() {
+  public logout() {
     this.authService.logout();
     this.router.navigateByUrl('/app');
   }

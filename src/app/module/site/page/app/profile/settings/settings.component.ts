@@ -11,7 +11,7 @@ import {MatSnackBar} from "@angular/material";
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements AfterViewInit {
-  private formData = Utils.clone(formData.profile_settings);
+  public formData = Utils.clone(formData.profile_settings);
   @ViewChild('form', {static: true})
   private form: FormBuilderComponent;
 
@@ -21,7 +21,7 @@ export class SettingsComponent implements AfterViewInit {
   ) {
   }
 
-  private get isNotChangedFormsValue() {
+  public get isNotChangedFormsValue() {
     return !this.form.isValueChanged();
   }
 
@@ -31,7 +31,7 @@ export class SettingsComponent implements AfterViewInit {
     });
   }
 
-  private save() {
+  public save() {
     this.form.submit();
     if (this.form.isValid()) {
       const data = this.form.getValue();
@@ -57,7 +57,7 @@ export class SettingsComponent implements AfterViewInit {
     });
   }
 
-  private deleteProfile() {
+  public deleteProfile() {
     const isDelete = confirm("Are you sure you wan't to delete your account?");
     if (isDelete) {
       this.authService.deleteUser().subscribe((value: any) => {

@@ -44,10 +44,10 @@ export class ChipFormElementComponent implements OnInit, OnDestroy, MatFormField
   readonly errorState: boolean;
   public focused: boolean = false;
   private visible = true;
-  private selectable = true;
-  private removable = true;
-  private addOnBlur = true;
-  private elements: Array<string> = [];
+  public selectable = true;
+  public removable = true;
+  public addOnBlur = true;
+  public elements: Array<string> = [];
   public ngControl: NgControl | null;
   private _placeholder: string = '';
   private onChange = (delta: any) => {};

@@ -17,7 +17,7 @@ import {FormController} from "@app/interface/FormController";
 })
 export class LanguageComponent implements OnBeforeDeactivate, AfterViewInit, FormController {
   private formData = formData.language;
-  private forms = [];
+  public forms = [];
   @ViewChildren('form')
   private formQueryList: QueryList<FormBuilderComponent>;
   private repositoryHelper: RepositoryHelper;
@@ -32,7 +32,7 @@ export class LanguageComponent implements OnBeforeDeactivate, AfterViewInit, For
     this.forms.push(Utils.clone(this.formData));
   }
 
-  private get isNotChangedFormsValue() {
+  public get isNotChangedFormsValue() {
     return typeof this.repositoryHelper === 'undefined' || !this.repositoryHelper.isFormsValueChanged;
   }
 
@@ -54,11 +54,11 @@ export class LanguageComponent implements OnBeforeDeactivate, AfterViewInit, For
     this.forms.push(Utils.clone(this.formData));
   }
 
-  private save() {
+  public save() {
     this.repositoryHelper.save();
   }
 
-  private delete(id) {
+  public delete(id) {
     let dialog = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Would you like to delete?',

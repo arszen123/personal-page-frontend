@@ -16,7 +16,7 @@ import {FormController} from "@app/interface/FormController";
 })
 export class EducationComponent implements OnBeforeDeactivate, AfterViewInit, FormController {
   private formData = formData.education;
-  private forms = [Utils.clone(this.formData)];
+  public forms = [Utils.clone(this.formData)];
   @ViewChildren('form')
   private formQueryList: QueryList<FormBuilderComponent>;
   private repositoryHelper: RepositoryHelper;
@@ -28,7 +28,7 @@ export class EducationComponent implements OnBeforeDeactivate, AfterViewInit, Fo
   ) {
   }
 
-  private get isNotChangedFormsValue() {
+  public get isNotChangedFormsValue() {
     return typeof this.repositoryHelper === 'undefined' || !this.repositoryHelper.isFormsValueChanged;
   }
 
@@ -50,11 +50,11 @@ export class EducationComponent implements OnBeforeDeactivate, AfterViewInit, Fo
     this.repositoryHelper.syncData();
   }
 
-  private save() {
+  public save() {
     this.repositoryHelper.save();
   }
 
-  private delete(id) {
+  public delete(id) {
     let dialog = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Would you like to delete?',

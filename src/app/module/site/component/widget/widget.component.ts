@@ -9,11 +9,11 @@ import {Repository} from "@app/interface/Repository";
 })
 export class WidgetComponent implements OnInit {
   @Input()
-  private data: any = null;
+  public data: any = null;
   @Output('delete')
   private _delete: EventEmitter<void> = new EventEmitter();
   private repository: Repository = null;
-  private entity: any;
+  public entity: any;
 
   constructor(
     private repoFactory: RepositoryFactoryService
@@ -29,7 +29,7 @@ export class WidgetComponent implements OnInit {
     this.entity = this.repository.get(this.data.element);
   }
 
-  private delete() {
+  public delete() {
     this._delete.emit();
   }
 

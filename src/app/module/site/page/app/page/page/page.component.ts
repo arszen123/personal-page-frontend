@@ -15,11 +15,11 @@ declare var GridStack: any;
   styleUrls: ['./page.component.scss']
 })
 export class PageComponent implements OnInit, OnBeforeDeactivate {
-  private widgets: Array<any> = [];
+  public widgets: Array<any> = [];
   @ViewChildren('gridstackItem')
   private widgetQuery: QueryList<any>;
   private security = {};
-  private personalData;
+  public personalData;
   private isSecurityChanged: boolean = false;
   private isWidgetsChanged: boolean = false;
 
@@ -42,7 +42,7 @@ export class PageComponent implements OnInit, OnBeforeDeactivate {
     this.personalData = this.personalDataRepository.getAll();
   }
 
-  private addWidget() {
+  public addWidget() {
     this.dialog.open(AddWidgetComponent, {
       width: '40%'
     })
@@ -58,7 +58,7 @@ export class PageComponent implements OnInit, OnBeforeDeactivate {
     this.widgets.push(item);
   }
 
-  private save() {
+  public save() {
     let data: Array<object> = [];
     this.widgetQuery.forEach((item, index) => {
       let dataset = item.elem.nativeElement.dataset;
@@ -88,7 +88,7 @@ export class PageComponent implements OnInit, OnBeforeDeactivate {
         err => this.snackBar.open(err.error.message, 'OK', {duration: 2000}));
   }
 
-  private delete(id) {
+  public delete(id) {
     let tmpWidgets = [];
     for (let i in this.widgets) {
       if (i != id) {
@@ -100,7 +100,7 @@ export class PageComponent implements OnInit, OnBeforeDeactivate {
     this.widgets = tmpWidgets;
   }
 
-  private settings() {
+  public settings() {
     let dialog = this.dialog.open(SecurityComponent, {
       data: this.security,
       width: '40%',

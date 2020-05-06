@@ -16,7 +16,7 @@ import {FormController} from "@app/interface/FormController";
 })
 export class ContactComponent implements OnBeforeDeactivate, AfterViewInit, AfterViewChecked, FormController {
   private formData = formData.contact;
-  private forms = [Utils.clone(this.formData)];
+  public forms = [Utils.clone(this.formData)];
   @ViewChildren('form')
   private formQueryList: QueryList<FormBuilderComponent>;
   private repositoryHelper: RepositoryHelper;
@@ -28,7 +28,7 @@ export class ContactComponent implements OnBeforeDeactivate, AfterViewInit, Afte
   ) {
   }
 
-  private get isNotChangedFormsValue() {
+  public get isNotChangedFormsValue() {
     return typeof this.repositoryHelper === 'undefined' || !this.repositoryHelper.isFormsValueChanged;
   }
 
@@ -55,11 +55,11 @@ export class ContactComponent implements OnBeforeDeactivate, AfterViewInit, Afte
     this.forms.push(Utils.clone(this.formData));
   }
 
-  private save() {
+  public save() {
     this.repositoryHelper.save();
   }
 
-  private delete(id) {
+  public delete(id) {
     let dialog = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Would you like to delete?',
