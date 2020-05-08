@@ -13,6 +13,7 @@ import {Subscription} from "rxjs";
 export class RegistrationComponent implements OnInit, OnDestroy {
   public registrationForm;
   public error;
+  public isInProgress = false;
   private regSubscription$: Subscription|null = null;
 
   constructor(
@@ -47,6 +48,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public register() {
     this.unsubscribeReg();
     if (this.registrationForm.valid) {
+      this.isInProgress = true;
       this.regSubscription$ = this.authService
         .register(this.registrationForm.value)
         .subscribe(() => {
@@ -54,6 +56,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           },
           error => {
             this.error = error.error;
+            this.isInProgress = false;
           });
     }
   }

@@ -23,5 +23,6 @@
   <button
     mat-flat-button
     color="primary"
+    [disabled]="isInProgress"
     (click)="register()">Register</button>
 </form>

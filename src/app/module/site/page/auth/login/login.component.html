@@ -12,5 +12,6 @@
   <button
     mat-flat-button
     color="primary"
+    [disabled]="isInProgress"
     (click)="login()">Login</button>
 </form>

@@ -139,6 +139,10 @@ export class FormBuilderComponent implements OnInit, OnDestroy {
   }
 
   public onFileChanged(element: string, imageElement: HTMLInputElement) {
+    if (this._isAllowedFiledSize(imageElement)) {
+      alert('Maximum allowed file size is: 50KB');
+      return;
+    }
     this.getImageBase64Data(imageElement)
       .subscribe(value => {
         this.files[element] = value;
@@ -146,6 +150,9 @@ export class FormBuilderComponent implements OnInit, OnDestroy {
   }
 
   public setImage(imageElement: HTMLInputElement, previewElement: HTMLImageElement) {
+    if (this._isAllowedFiledSize(imageElement)) {
+      return;
+    }
     this.getImageBase64Data(imageElement)
       .subscribe((value: any) => {
         if (value === '') {
@@ -176,5 +183,9 @@ export class FormBuilderComponent implements OnInit, OnDestroy {
         subscriber.error(err);
       })
     });
+  }
+
+  private _isAllowedFiledSize(element: HTMLInputElement) {
+    return element.files && element.files[0] && element.files[0].size >= 50000;
   }
 }

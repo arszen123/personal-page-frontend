@@ -1,7 +1,7 @@
 <div id="profile-container" *ngIf="isSuccess$ | async">
   <div class="container">
     <div class="image">
-      <img [src]="profileData?.user?.profile_picture || 'https://via.placeholder.com/350'"/>
+      <img [src]="profileData?.user?.profile_picture || '/assets/img/placeholder.png'"/>
     </div>
     <div class="description">
       <h1 class="name">{{ profileData?.user?.first_name + ' ' + profileData?.user?.last_name }}</h1>

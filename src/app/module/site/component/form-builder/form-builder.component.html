@@ -80,6 +80,8 @@
           [required]="formData.elements[elementName].required"
           [placeholder]="formData.elements[elementName].placeholder"
           type="file"
+          [accept]="formData.elements[elementName].accept"
+          max-size="250"
           (change)="onFileChanged(elementName, pictureUpload); setImage(pictureUpload, imagePreview)"
           [formControlName]="elementName">
         <mat-error *ngFor="let errorMessage of formData.elements[elementName].errors | keyvalue">

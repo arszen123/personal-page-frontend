@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   };
   public loginForm;
   public error;
+  public isInProgress = false;
   private subSubscription$ = null;
   @Input()
   private doRedirect: boolean = true;
@@ -50,6 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public login() {
     this.unsubscribeLogin();
     if (this.loginForm.valid) {
+      this.isInProgress = true;
       this.subSubscription$ = this.authService.login(this.loginForm.value)
         .subscribe(() => {
           if (this.doRedirect) {
@@ -60,6 +62,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           },
           error => {
             this.error = error.error;
+            this.isInProgress = false;
           })
     }
   }

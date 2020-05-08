@@ -48,6 +48,7 @@ export class PersonalDataComponent implements OnBeforeDeactivate {
             }
           },
           error => {
+            console.log(error);
             if (error.error.message) {
               this.snackBar.open(error.error.message, 'OK', {duration: 2000});
             }

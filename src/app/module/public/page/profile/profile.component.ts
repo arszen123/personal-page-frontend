@@ -15,6 +15,7 @@ export class ProfileComponent implements OnInit {
   public needAuth$: Observable<boolean> = of(false);
   public pageId: string = '';
   private fileData: { filename: string | null; data: Blob };
+  private isDownloadStarted = false;
 
   constructor(
     private profileService: PublicProfileService,
@@ -80,13 +81,17 @@ export class ProfileComponent implements OnInit {
       this._downloadFile(this.fileData.filename, this.fileData.data);
       return;
     }
+    this.isDownloadStarted = true;
     this.profileService.downloadCV(this.pageId).subscribe((data) => {
+      this.isDownloadStarted = false;
       if (data.filename === null) {
         console.error('No file name');
         return;
       }
       this.fileData = data;
       this._downloadFile(data.filename, data.data);
+    }, () => {
+      this.isDownloadStarted = false;
     });
   }
 

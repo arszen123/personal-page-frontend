@@ -7,6 +7,7 @@ export const form: {
       [key: string]: {
         type: string,
         placeholder?: string,
+        accept?: string,
         required?: boolean,
         hidden?: boolean,
         validators?: Array<ValidatorFn>,
@@ -29,6 +30,7 @@ export const form: {
       profile_picture: {
         type: 'picture_upload',
         placeholder: 'Profile picture',
+        accept: 'image/*',
         // required: true,
         validators: [
           // Validators.required
