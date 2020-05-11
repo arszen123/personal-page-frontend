@@ -16,6 +16,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BaseInterceptor} from "@app/http-interceptors/base-interceptor";
 import {AuthInterceptor} from "@app/http-interceptors/auth-interceptor";
 import {MatCardModule, MatChipsModule, MatNativeDateModule, MatSnackBarModule} from "@angular/material";
+import {WidgetModule} from "@app/module/widget/widget.module";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import {MatCardModule, MatChipsModule, MatNativeDateModule, MatSnackBarModule} f
     MatNativeDateModule,
     MatSnackBarModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
   ],
   providers: [
     {

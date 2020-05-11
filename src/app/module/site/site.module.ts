@@ -35,13 +35,13 @@ import { ChipFormElementComponent } from './component/chip-form-element/chip-for
 import { PageComponent } from './page/app/page/page/page.component';
 import {GridstackModule} from "@libria/gridstack";
 import { AddWidgetComponent } from './component/add-widget/add-widget.component';
-import { WidgetComponent } from './component/widget/widget.component';
 import { SecurityComponent } from './page/app/page/security/security.component';
-import {PublicModule} from "@app/module/public/public.module";
 import { OauthComponent } from './page/auth/oauth/oauth.component';
 import { AppsComponent } from './page/app/oauth/apps/apps.component';
 import { SettingsComponent } from './page/app/profile/settings/settings.component';
 import { DeleteComponent } from './page/app/profile/delete/delete.component';
+import {WidgetModule} from "@app/module/widget/widget.module";
+import {WidgetComponent} from "@app/module/site/component/widget/widget.component";
 
 
 @NgModule({
@@ -90,7 +90,7 @@ import { DeleteComponent } from './page/app/profile/delete/delete.component';
     MatSelectModule,
     MatChipsModule,
     GridstackModule.forRoot(),
-    PublicModule
+    WidgetModule
   ],
   entryComponents: [
     ConfirmDialogComponent,

@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {PublicRoutingModule} from './public-routing.module';
-import {PublicComponent} from './public.component';
 import {ProfileComponent} from './page/profile/profile.component';
 import {NotFoundComponent} from './page/not-found/not-found.component';
 import {IndexComponent} from './page/index/index.component';
@@ -15,14 +14,11 @@ import {
   MatIconModule,
   MatInputModule
 } from "@angular/material";
-import {WidgetComponent} from "@app/component/widget/widget.component";
+import {WidgetModule} from "@app/module/widget/widget.module";
 
 
 @NgModule({
-  declarations: [PublicComponent, ProfileComponent, NotFoundComponent, IndexComponent, WidgetComponent],
-  exports: [
-    WidgetComponent
-  ],
+  declarations: [ProfileComponent, NotFoundComponent, IndexComponent],
   imports: [
     CommonModule,
     PublicRoutingModule,
@@ -34,6 +30,7 @@ import {WidgetComponent} from "@app/component/widget/widget.component";
     MatFormFieldModule,
     MatInputModule,
     MatDividerModule,
+    WidgetModule
   ]
 })
 export class PublicModule {
